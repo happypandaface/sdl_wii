@@ -1,0 +1,2 @@
+"winbuild/main"
+pause
