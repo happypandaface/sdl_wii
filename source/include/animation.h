@@ -29,12 +29,13 @@ class Animation
 		~Animation();
 		void setBaseSpeed(float bs);
 		float getBaseSpeed();
-		void addFrame(int img, float x, float y);
+		void addFrame(int img, float x, float y, float time);
 		void draw(ResourceLoader *res_holder, SDL_Surface *screen, AnimationInstance *ai, float x, float y);
 	private:
 		struct Frame *frames;
 		SDL_Rect *src_rect;
 		SDL_Rect *dst_rect;
+		float totalTime;
 		int curFrame;
 		int numFrames;
 		float baseSpeed;

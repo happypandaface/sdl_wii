@@ -1,0 +1,11 @@
+Add respawn points and make it all link in gameProps, (maybs have activated spawn points)
+Make it so you only respawn when everyone is dead
+Make it so on respawn it reloads the level (changing the spawn)
+	This will make it so there will be MEMORY LEAKS so this will be hard
+Add a small obsticle course with spike balls and moving spike balls.
+OPTIONAL: make spike balls only kill when they spike out
+Make spike balls knock you back when they hit you.
+Make it so you blow into chunks when you die
+Add a suicide button "A"
+Make it so allies can eat those chunks and regain health "dude, just make me some meat" "nah dude that kills me"
+Make it so you can have multiple images with multiple offsets in an animation frame (animation.cpp)

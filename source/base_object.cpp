@@ -9,10 +9,12 @@ BaseObject::BaseObject()
 	pos = new Pos2();
 	size = new Pos2(1, 1);
 	vel = new Pos2();
+	offset = new Pos2();
 	hitDir = 0;
 	types = 0;
 	shouldBeRemoved = 0;
 	restitution = 3;
+	layer = 0;
 }
 
 BaseObject::~BaseObject()
@@ -20,6 +22,7 @@ BaseObject::~BaseObject()
 	delete pos;
 	delete size;
 	delete vel;
+	delete offset;
 }
 
 void BaseObject::setPos(float x, float y)
@@ -40,6 +43,10 @@ int BaseObject::checkHitDir(int hd)
 	return false;
 }
 
+void BaseObject::doDeath(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta)
+{
+}
+
 int BaseObject::checkIfShouldBeRemoved()
 {
 	return shouldBeRemoved;
@@ -49,20 +56,35 @@ void BaseObject::setToBeRemoved(int remove)
 	shouldBeRemoved = remove;
 }
 
-int BaseObject::load(ResourceLoader *resLoader)
+int BaseObject::load(ResourceLoader *resLoader, AnimationHolder *animHolder)
 {
 	//spriteImage = resLoader->get_image(IMG_DIRT_SQUARE);
 	//spriteImage = resLoader->get_image(IMG_TEST);
+	load_animations(animHolder);
 	return 1;
+}
+
+void BaseObject::load_animations(AnimationHolder *animHolder)
+{
+	// to be overriden.
 }
 
 Pos2 *BaseObject::getPosition()
 {
 	return pos;
 }
+void BaseObject::setOffset(float x, float y)
+{
+	offset->set(x, y);
+}
 
 int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, float delta)
 {
+	//kinematic stuff
+	pos->addMul(vel, delta);
+	vel->mul(1-(restitution*delta));
+	animInst->update(delta);
+	//reset the hit dir
 	hitDir = 0;
 	if (checkType(TYP_CLIPS))
 	{
@@ -76,7 +98,7 @@ int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  Audi
 				Pos2 *dst = pos->intersection(
 					size, 
 					curr->getPosition(), 
-					size);
+					curr->size);
 				if (dst != NULL)
 				{
 					if (dst->getY() > 0){
@@ -106,13 +128,13 @@ int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  Audi
 		}
 		objHolder->destroyIterator(objIter);
 	}
-	//kinematic stuff
-	pos->addMul(vel, delta);
-	vel->mul(1-(restitution*delta));
-	animInst->update(delta);
 	return 1;
 }
 
+Pos2 *BaseObject::getSize()
+{
+	return size;
+}
 int BaseObject::checkType(long type)
 {
 	if (types & type)
@@ -132,6 +154,17 @@ void BaseObject::doGravity(float strength, float delta)
 {
 	vel->addY(strength*delta);
 }
+int BaseObject::getLayer()
+{
+	return layer;
+}
+void BaseObject::setLayer(int l)
+{
+	layer = l;
+}
+void BaseObject::die(BaseObject *killer)
+{
+}
 
 int BaseObject::draw(ResourceLoader *resLoader, GameProperties *gameProps, SDL_Surface *screen)
 {
@@ -148,7 +181,12 @@ int BaseObject::draw(ResourceLoader *resLoader, GameProperties *gameProps, SDL_S
 	dst_rect->h = 64;
 	SDL_BlitSurface( resLoader->get_image(IMG_TEST), src_rect, screen, dst_rect );*/
 	Pos2 *tileSize = gameProps->getTileSize();
-	animInst->draw(resLoader, screen, pos->getX()*tileSize->getX(), pos->getY()*tileSize->getY());
+	animInst->draw(
+		resLoader, 
+		screen, 
+		(pos->getX()-gameProps->getOffset()->getX()+offset->getX())*(tileSize->getX()), 
+		(pos->getY()-gameProps->getOffset()->getY()+offset->getY())*(tileSize->getY())
+	);
 	//SDL_BlitSurface( spriteImage, src_rect, screen, dst_rect );
 	return 1;
 }

@@ -19,11 +19,17 @@ void Gravity::update(ObjectHolder *objHolder, float delta)
 	while(objHolder->hasNext(objIter))
 	{
 		curr = objHolder->next(objIter);
+		if (curr->checkType(TYP_HAS_GRAV))
+		{
+			curr->doGravity(strength, delta);
+		}
+		/* old:
 		Player *plr = dynamic_cast<Player*>(curr);
 		if (plr)
 		{
 			plr->doGravity(strength, delta);
 		}
+		*/
 	}
 	objHolder->destroyIterator(objIter);
 }

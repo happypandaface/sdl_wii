@@ -30,21 +30,27 @@ sdl_wii.o: d:/work/sdl_wii/source/sdl_wii.cpp \
  d:/devkitPro/libogc/include/SDL/SDL.h \
  d:/work/sdl_wii/source/include/controller.h \
  d:/work/sdl_wii/source/include/res_loader.h \
- d:/devkitPro/libogc/include/SDL/sdl.h \
  d:/work/sdl_wii/source/include/audio.h \
  d:/work/sdl_wii/source/include/game_properties.h \
  d:/work/sdl_wii/source/include/pos2.h \
- d:/work/sdl_wii/source/include/object_holder.h \
+ d:/work/sdl_wii/source/include/camera.h \
+ d:/work/sdl_wii/source/include/game_properties.h \
  d:/work/sdl_wii/source/include/base_object.h \
  d:/work/sdl_wii/source/include/controller.h \
  d:/work/sdl_wii/source/include/res_loader.h \
- d:/work/sdl_wii/source/include/game_properties.h \
  d:/work/sdl_wii/source/include/audio.h \
  d:/work/sdl_wii/source/include/animation.h \
  d:/work/sdl_wii/source/include/object_holder.h \
+ d:/work/sdl_wii/source/include/animation_holder.h \
+ d:/work/sdl_wii/source/include/object_holder.h \
  d:/work/sdl_wii/source/include/gravity.h \
+ d:/work/sdl_wii/source/include/camera.h \
+ d:/work/sdl_wii/source/include/animation_holder.h \
  d:/work/sdl_wii/source/include/player.h \
- d:/work/sdl_wii/source/include/wall.h
+ d:/work/sdl_wii/source/include/spike_ball.h \
+ d:/work/sdl_wii/source/include/wall.h \
+ d:/work/sdl_wii/source/include/giblet.h \
+ d:/work/sdl_wii/source/include/background.h
 
 d:/devkitPro/libogc/include/SDL/SDL.h:
 
@@ -108,15 +114,15 @@ d:/work/sdl_wii/source/include/controller.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
 
-d:/devkitPro/libogc/include/SDL/sdl.h:
-
 d:/work/sdl_wii/source/include/audio.h:
 
 d:/work/sdl_wii/source/include/game_properties.h:
 
 d:/work/sdl_wii/source/include/pos2.h:
 
-d:/work/sdl_wii/source/include/object_holder.h:
+d:/work/sdl_wii/source/include/camera.h:
+
+d:/work/sdl_wii/source/include/game_properties.h:
 
 d:/work/sdl_wii/source/include/base_object.h:
 
@@ -124,16 +130,28 @@ d:/work/sdl_wii/source/include/controller.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
 
-d:/work/sdl_wii/source/include/game_properties.h:
-
 d:/work/sdl_wii/source/include/audio.h:
 
 d:/work/sdl_wii/source/include/animation.h:
 
 d:/work/sdl_wii/source/include/object_holder.h:
 
+d:/work/sdl_wii/source/include/animation_holder.h:
+
+d:/work/sdl_wii/source/include/object_holder.h:
+
 d:/work/sdl_wii/source/include/gravity.h:
+
+d:/work/sdl_wii/source/include/camera.h:
+
+d:/work/sdl_wii/source/include/animation_holder.h:
 
 d:/work/sdl_wii/source/include/player.h:
 
+d:/work/sdl_wii/source/include/spike_ball.h:
+
 d:/work/sdl_wii/source/include/wall.h:
+
+d:/work/sdl_wii/source/include/giblet.h:
+
+d:/work/sdl_wii/source/include/background.h:

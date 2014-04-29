@@ -28,9 +28,13 @@ res_loader.o: d:/work/sdl_wii/source/res_loader.cpp \
  d:/devkitPro/libogc/include/SDL/SDL_timer.h \
  d:/devkitPro/libogc/include/SDL/SDL_version.h \
  d:/work/sdl_wii/source/include/res_loader.h \
- d:/devkitPro/libogc/include/SDL/sdl.h \
+ d:/devkitPro/libogc/include/SDL/SDL.h \
  d:/work/sdl_wii/source/include/images/testSprite.h \
- d:/work/sdl_wii/source/include/images/dirtSquare.h
+ d:/work/sdl_wii/source/include/images/dirtSquare.h \
+ d:/work/sdl_wii/source/include/images/coolGuy.h \
+ d:/work/sdl_wii/source/include/images/spikeBall.h \
+ d:/work/sdl_wii/source/include/images/caveStory.h \
+ d:/work/sdl_wii/source/include/images/giblet.h
 
 d:/devkitPro/libogc/include/SDL/sdl_image.h:
 
@@ -90,8 +94,16 @@ d:/devkitPro/libogc/include/SDL/SDL_version.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
 
-d:/devkitPro/libogc/include/SDL/sdl.h:
+d:/devkitPro/libogc/include/SDL/SDL.h:
 
 d:/work/sdl_wii/source/include/images/testSprite.h:
 
 d:/work/sdl_wii/source/include/images/dirtSquare.h:
+
+d:/work/sdl_wii/source/include/images/coolGuy.h:
+
+d:/work/sdl_wii/source/include/images/spikeBall.h:
+
+d:/work/sdl_wii/source/include/images/caveStory.h:
+
+d:/work/sdl_wii/source/include/images/giblet.h:

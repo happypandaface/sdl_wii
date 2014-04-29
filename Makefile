@@ -89,6 +89,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES), -iquote $(CURDIR)/$(dir)) \
 					-I$(CURDIR)/$(BUILD) \
 					-I$(LIBOGC_INC) \
 					-I$(CURDIR)/source/include
+# I added the last line so that it would get my includes
 
 #---------------------------------------------------------------------------------
 # build a list of library paths

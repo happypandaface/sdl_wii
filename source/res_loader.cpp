@@ -6,36 +6,162 @@
 // images
 #include "images/testSprite.h"
 #include "images/dirtSquare.h"
+#include "images/coolGuy.h"
+#include "images/spikeBall.h"
+#include "images/caveStory.h"
+#include "images/giblet.h"
+
+class ResourceLoader::ResImage
+{
+	public:
+		ResImage(int in, SDL_Surface* s, float x, float y, float w, float h)
+		{
+			img_num = in;
+			img_file = s;
+			src_rect = new SDL_Rect;
+			src_rect->x = x;
+			src_rect->y = y;
+			src_rect->w = w;
+			src_rect->h = h;
+		}
+		~ResImage()
+		{
+			delete src_rect;
+		}
+		SDL_Rect *getSrcRect()
+		{
+			return src_rect;
+		}
+		int getImgNum()
+		{
+			return img_num;
+		}
+		SDL_Surface *getImgFile()
+		{
+			return img_file;
+		}
+	private:
+		int img_num;
+		SDL_Surface *img_file;
+		SDL_Rect *src_rect;
+};
 
 ResourceLoader::ResourceLoader()
 {
 	for (int i = 0; i < NUM_IMAGES; ++i)
 		images[i] = NULL;
+	//for (int i = 0; i < NUM_FILES; ++i)
+	//	imageFiles[i] = NULL;
+	dst_rect = new SDL_Rect;
+	dst_rect->x = 0;
+	dst_rect->y = 0;
+	dst_rect->w = 64;
+	dst_rect->h = 64;
 }
 
 ResourceLoader::~ResourceLoader()
 {
+	//for (int i = 0; i < NUM_FILES; ++i)
+	//	if (imageFiles[i] != NULL)
+	//		delete imageFiles[i];
 	for (int i = 0; i < NUM_IMAGES; ++i)
 		if (images[i] != NULL)
 			delete images[i];
+	delete dst_rect;
 }
 
+/*
 SDL_Surface *ResourceLoader::get_image(int image)
 {
 	// this loads c-image files
 	if (image == IMG_TEST)
-		return images[IMG_TEST_ARR];
+		return imageFiles[IMG_TEST_ARR];
 	if (image == IMG_DIRT_SQUARE)
-		return images[IMG_DIRT_SQUARE_ARR];
+		return imageFiles[IMG_DIRT_SQUARE_ARR];
+	if (image == IMG_COOL_GUY)
+		return imageFiles[IMG_COOL_GUY_ARR];
+	if (image == IMG_COOL_GUY2)
+		return imageFiles[IMG_COOL_GUY2_ARR];
 	return NULL;
+}*/
+
+ResourceLoader::ResImage *ResourceLoader::get_image(int image)
+{
+	return images[get_arr_pos(image)];
+}
+
+int ResourceLoader::get_arr_pos(int image)
+{
+	// put some special cases in here
+	return image-1;
 }
 
 float ResourceLoader::load()
 {
-	SDL_RWops * z1 = SDL_RWFromMem(testSprite,testSpriteSize);
-	images[IMG_TEST_ARR] = IMG_LoadJPG_RW(z1);
-	SDL_RWops * z2 = SDL_RWFromMem(dirtSquare,dirtSquareSize);
-	images[IMG_DIRT_SQUARE_ARR] = IMG_LoadPNG_RW(z2);
+	SDL_RWops * flowerFile = SDL_RWFromMem(testSprite,testSpriteSize);
+	SDL_Surface *flowerSurf = IMG_LoadJPG_RW(flowerFile);
+	
+	SDL_RWops * dirtFile = SDL_RWFromMem(dirtSquare,dirtSquareSize);
+	SDL_Surface *dirtSurf = IMG_LoadPNG_RW(dirtFile);
+	
+	SDL_RWops * coolGuyFile = SDL_RWFromMem(coolGuy,coolGuySize);
+	SDL_Surface *coolGuySurf = IMG_LoadPNG_RW(coolGuyFile);
+	
+	SDL_RWops * spikeBallFile = SDL_RWFromMem(spikeBallData,spikeBallSize);
+	SDL_Surface *spikeBallSurf = IMG_LoadPNG_RW(spikeBallFile);
+	
+	SDL_RWops * caveStoryFile = SDL_RWFromMem(caveStoryData,caveStorySize);
+	SDL_Surface *caveStorySurf = IMG_LoadPNG_RW(caveStoryFile);
+	
+	SDL_RWops * gibletFile = SDL_RWFromMem(gibletData,gibletSize);
+	SDL_Surface *gibletSurf = IMG_LoadPNG_RW(gibletFile);
+	
+	images[get_arr_pos(IMG_TEST)] = new ResourceLoader::ResImage(
+		IMG_TEST, flowerSurf,
+		0, 0, 64, 64);
+	images[get_arr_pos(IMG_DIRT_SQUARE)] = new ResourceLoader::ResImage(
+		IMG_DIRT_SQUARE, dirtSurf,
+		0, 0, 64, 64);
+	images[get_arr_pos(IMG_COOL_GUY)] = new ResourceLoader::ResImage(
+		IMG_COOL_GUY, coolGuySurf,
+		20, 10, 33, 76);
+	images[get_arr_pos(IMG_COOL_GUY2)] = new ResourceLoader::ResImage(
+		IMG_COOL_GUY2, coolGuySurf,
+		62, 174, 30, 72);
+	images[get_arr_pos(IMG_SPIKE_BALL1)] = new ResourceLoader::ResImage(
+		IMG_SPIKE_BALL1, spikeBallSurf,
+		0, 0, 64, 64);
+	images[get_arr_pos(IMG_SPIKE_BALL2)] = new ResourceLoader::ResImage(
+		IMG_SPIKE_BALL2, spikeBallSurf,
+		64, 0, 64, 60);
+	images[get_arr_pos(IMG_SPIKE_BALL3)] = new ResourceLoader::ResImage(
+		IMG_SPIKE_BALL3, spikeBallSurf,
+		0, 64, 64, 64);
+	images[get_arr_pos(IMG_SPIKE_BALL4)] = new ResourceLoader::ResImage(
+		IMG_SPIKE_BALL4, spikeBallSurf,
+		64, 64, 64, 64);
+	images[get_arr_pos(IMG_CAVE_BG)] = new ResourceLoader::ResImage(
+		IMG_CAVE_BG, caveStorySurf,
+		0, 0, 920, 575);
+	images[get_arr_pos(IMG_GIBLET1)] = new ResourceLoader::ResImage(
+		IMG_GIBLET1, gibletSurf,
+		0, 0, 32, 32);
 	
 	return 1.0f;
+}
+
+void ResourceLoader::draw_image(int img_type, SDL_Surface *screen, float x, float y)
+{
+	ResourceLoader::ResImage *resImg = get_image(img_type);
+	dst_rect->x = x;
+	dst_rect->y = y;
+	dst_rect->w = resImg->getSrcRect()->w;
+	dst_rect->h = resImg->getSrcRect()->h;
+	/*
+	SDL_BlitSurface( resLoader->get_image(IMG_TEST), src_rect, screen, dst_rect );*/
+	SDL_BlitSurface(
+		resImg->getImgFile(), 
+		resImg->getSrcRect(), 
+		screen, 
+		dst_rect);
 }

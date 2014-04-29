@@ -8,5 +8,6 @@ class Wall : public BaseObject
 	public:
 		Wall();
 		~Wall();
+		void load_animations(AnimationHolder *animHolder);
 };
 #endif

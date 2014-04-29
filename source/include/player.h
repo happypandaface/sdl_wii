@@ -9,6 +9,7 @@ class Player;
 #include "res_loader.h"
 #include "game_properties.h"
 #include "base_object.h"
+#include "animation_holder.h"
 
 class Player : public BaseObject
 {
@@ -16,7 +17,10 @@ class Player : public BaseObject
 		Player();
 		~Player();
 		void setController(int num);
+		void die(BaseObject *killer);
+		void load_animations(AnimationHolder *animHolder);
 		int update(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, float delta);
+		void doDeath(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta);
 	private:
 		int controller_num;
 		float jumpVel;

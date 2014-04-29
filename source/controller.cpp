@@ -51,24 +51,40 @@ void Controller::update()
 		while( SDL_PollEvent( event ) ){
 			switch( event->type ){
 				case SDL_KEYDOWN:
-					if (event->key.keysym.sym == SDLK_RIGHT)
+					if (event->key.keysym.sym == SDLK_l)
 						keysDown[0] |= CTRL_BIT_RIGHT;
-					else if (event->key.keysym.sym == SDLK_LEFT)
+					else if (event->key.keysym.sym == SDLK_j)
 						keysDown[0] |= CTRL_BIT_LEFT;
-					else if (event->key.keysym.sym == SDLK_UP)
+					else if (event->key.keysym.sym == SDLK_i)
 						keysDown[0] |= CTRL_BIT_UP;
-					else if (event->key.keysym.sym == SDLK_DOWN)
+					else if (event->key.keysym.sym == SDLK_k)
 						keysDown[0] |= CTRL_BIT_DOWN;
+					else if (event->key.keysym.sym == SDLK_d)
+						keysDown[1] |= CTRL_BIT_RIGHT;
+					else if (event->key.keysym.sym == SDLK_a)
+						keysDown[1] |= CTRL_BIT_LEFT;
+					else if (event->key.keysym.sym == SDLK_w)
+						keysDown[1] |= CTRL_BIT_UP;
+					else if (event->key.keysym.sym == SDLK_s)
+						keysDown[1] |= CTRL_BIT_DOWN;
 					break;
 				case SDL_KEYUP:
-					if (event->key.keysym.sym == SDLK_RIGHT)
+					if (event->key.keysym.sym == SDLK_l)
 						keysDown[0] &= ~CTRL_BIT_RIGHT;
-					else if (event->key.keysym.sym == SDLK_LEFT)
+					else if (event->key.keysym.sym == SDLK_j)
 						keysDown[0] &= ~CTRL_BIT_LEFT;
-					else if (event->key.keysym.sym == SDLK_UP)
+					else if (event->key.keysym.sym == SDLK_i)
 						keysDown[0] &= ~CTRL_BIT_UP;
-					else if (event->key.keysym.sym == SDLK_DOWN)
+					else if (event->key.keysym.sym == SDLK_k)
 						keysDown[0] &= ~CTRL_BIT_DOWN;
+					else if (event->key.keysym.sym == SDLK_d)
+						keysDown[1] &= ~CTRL_BIT_RIGHT;
+					else if (event->key.keysym.sym == SDLK_a)
+						keysDown[1] &= ~CTRL_BIT_LEFT;
+					else if (event->key.keysym.sym == SDLK_w)
+						keysDown[1] &= ~CTRL_BIT_UP;
+					else if (event->key.keysym.sym == SDLK_s)
+						keysDown[1] &= ~CTRL_BIT_DOWN;
 					break;
 				case SDL_QUIT:
 					keysDown[0] |= CTRL_BIT_QUIT;

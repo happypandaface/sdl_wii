@@ -18,7 +18,9 @@ class ObjectHolder
 		void destroyIterator(struct ObjectIterator *oi);
 		int hasNext(struct ObjectIterator* oi);
 		BaseObject *next(struct ObjectIterator* oi);
+		void clear();
 		int addObject(BaseObject *bo);
+		int removeObject(BaseObject *bo);
 	private:
 		struct ObjectLink *firstLink;
 };

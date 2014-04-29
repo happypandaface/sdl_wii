@@ -9,10 +9,7 @@ Wall::~Wall()
 {
 }
 
-/*
-int Wall::load(ResourceLoader *resLoader)
+void Wall::load_animations(AnimationHolder *animHolder)
 {
-	spriteImage = resLoader->get_image(IMG_DIRT_SQUARE);
-	//spriteImage = resLoader->get_image(IMG_TEST);
-	return 1;
-}*/
+	setAnimation(animHolder->get_anim(ANIM_DIRT_BLOCK));
+}

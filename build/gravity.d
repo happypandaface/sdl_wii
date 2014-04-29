@@ -32,10 +32,11 @@ gravity.o: d:/work/sdl_wii/source/gravity.cpp \
  d:/work/sdl_wii/source/include/pos2.h \
  d:/work/sdl_wii/source/include/controller.h \
  d:/work/sdl_wii/source/include/res_loader.h \
- d:/devkitPro/libogc/include/SDL/sdl.h \
  d:/work/sdl_wii/source/include/game_properties.h \
- d:/work/sdl_wii/source/include/audio.h \
+ d:/work/sdl_wii/source/include/camera.h \
+ d:/work/sdl_wii/source/include/animation_holder.h \
  d:/work/sdl_wii/source/include/animation.h \
+ d:/work/sdl_wii/source/include/audio.h \
  d:/work/sdl_wii/source/include/player.h
 
 d:/work/sdl_wii/source/include/gravity.h:
@@ -104,12 +105,14 @@ d:/work/sdl_wii/source/include/controller.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
 
-d:/devkitPro/libogc/include/SDL/sdl.h:
-
 d:/work/sdl_wii/source/include/game_properties.h:
 
-d:/work/sdl_wii/source/include/audio.h:
+d:/work/sdl_wii/source/include/camera.h:
+
+d:/work/sdl_wii/source/include/animation_holder.h:
 
 d:/work/sdl_wii/source/include/animation.h:
+
+d:/work/sdl_wii/source/include/audio.h:
 
 d:/work/sdl_wii/source/include/player.h:

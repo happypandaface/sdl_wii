@@ -1,0 +1,1 @@
+If it's not building and you dky go into source and delete all the .o files. I would make the make file do this, but I'm scared I'll delete everything.

@@ -1,10 +1,13 @@
 #include "animation.h"
 #include <math.h>
 #include "pos2.h"
+#include <iostream>
 
 struct Frame
 {
 	int image_type;
+	// TODO: have multiple images with multiple offsets
+	float time;
 	Pos2 offset;
 };
 
@@ -40,6 +43,7 @@ void AnimationInstance::draw(ResourceLoader *res_holder, SDL_Surface *screen, fl
 Animation::Animation(int nf)
 {
 	numFrames = nf;
+	totalTime = 0;
 	frames = new struct Frame[numFrames];
 	curFrame = 0;
 	baseSpeed = 0;
@@ -66,19 +70,35 @@ float Animation::getBaseSpeed()
 {
 	return baseSpeed;
 }
-void Animation::addFrame(int img, float x, float y)
+void Animation::addFrame(int img, float x, float y, float time)
 {
 	struct Frame *frame = new Frame;
 	frame->image_type = img;
 	frame->offset.setX(x);
 	frame->offset.setY(y);
+	frame->time = time;
+	totalTime += time;
 	frames[curFrame] = *frame;
 	++curFrame;
 }
 void Animation::draw(ResourceLoader *resLoader, SDL_Surface *screen, AnimationInstance *ai, float x, float y)
 {
-	struct Frame *currFrame = &(frames[(int)floor(ai->getComplete()*numFrames)]);
-	dst_rect->x = x+currFrame->offset.getX();
-	dst_rect->y = y+currFrame->offset.getY();
-	SDL_BlitSurface( resLoader->get_image(currFrame->image_type), src_rect, screen, dst_rect );
+	struct Frame *currFrame = NULL;//&(frames[(int)floor(ai->getComplete()*numFrames)]);
+	float cumulativeTime = 0;
+	for (int i = 0; i < numFrames; ++i)
+	{
+		if (ai->getComplete()*totalTime >= cumulativeTime)
+			currFrame = &(frames[i]);
+		else
+			break;
+		cumulativeTime += currFrame->time;
+	}
+	if (currFrame != NULL)
+	{
+		resLoader->draw_image(
+			currFrame->image_type, 
+			screen, x+currFrame->offset.getX(), 
+			y+currFrame->offset.getY());
+	}
+	//SDL_BlitSurface( resLoader->get_image(currFrame->image_type), src_rect, screen, dst_rect );
 }

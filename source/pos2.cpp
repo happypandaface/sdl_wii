@@ -2,6 +2,7 @@
 #include <cmath>
 #include <stddef.h>
 #include <sstream>
+#include <stdlib.h>
 
 Pos2::Pos2()
 {
@@ -47,15 +48,29 @@ float Pos2::len()
 float Pos2::mulX(float scl)
 {
 	this->x *= scl;
+	return this->x;
 }
 float Pos2::mulY(float scl)
 {
 	this->y *= scl;
+	return this->y;
 }
 Pos2 *Pos2::mul(float scl)
 {
 	mulX(scl);
 	mulY(scl);
+	return this;
+}
+Pos2 *Pos2::div(Pos2 *div)
+{
+	mulX(1/div->getX());
+	mulY(1/div->getY());
+	return this;
+}
+Pos2 *Pos2::set(Pos2 *set)
+{
+	setX(set->getX());
+	setY(set->getY());
 	return this;
 }
 float Pos2::setX(float x)
@@ -108,13 +123,31 @@ Pos2 *Pos2::addMul(Pos2 *add, float mul)
 	addY(add->getY()*mul);
 	return this;
 }
+Pos2 *Pos2::set(float x, float y)
+{
+	setX(x);
+	setY(y);
+	return this;
+}
+Pos2 *Pos2::rnd()
+{
+	setX(((float)(rand()%100))/100.0);
+	setY(((float)(rand()%100))/100.0);
+	return this;
+}
+Pos2 *Pos2::sub(float x, float y)
+{
+	subX(x);
+	subY(y);
+	return this;
+}
 
 Pos2 *Pos2::intersection(Pos2 *size1, Pos2 *pos2, Pos2 *size2)
 {
-	if (this->x + size1->x > pos2->x &&
-		this->y + size1->y > pos2->y &&
-		this->x < pos2->x + size2->x &&
-		this->y < pos2->y + size2->y)
+	if (this->x + size1->x >= pos2->x &&
+		this->y + size1->y >= pos2->y &&
+		this->x <= pos2->x + size2->x &&
+		this->y <= pos2->y + size2->y)
 	{
 		float distX1 = (this->x + size1->x) - pos2->x;
 		float distX2 = (this->x - size2->x) - pos2->x;
