@@ -1,5 +1,6 @@
 spike_ball.o: d:/work/sdl_wii/source/spike_ball.cpp \
  d:/work/sdl_wii/source/include/spike_ball.h \
+ d:/work/sdl_wii/source/include/patroller.h \
  d:/work/sdl_wii/source/include/base_object.h \
  d:/devkitPro/libogc/include/SDL/SDL.h \
  d:/devkitPro/libogc/include/SDL/SDL_main.h \
@@ -36,9 +37,12 @@ spike_ball.o: d:/work/sdl_wii/source/spike_ball.cpp \
  d:/work/sdl_wii/source/include/object_holder.h \
  d:/work/sdl_wii/source/include/animation_holder.h \
  d:/work/sdl_wii/source/include/animation.h \
+ d:/work/sdl_wii/source/include/spawner.h \
  d:/work/sdl_wii/source/include/audio.h
 
 d:/work/sdl_wii/source/include/spike_ball.h:
+
+d:/work/sdl_wii/source/include/patroller.h:
 
 d:/work/sdl_wii/source/include/base_object.h:
 
@@ -111,5 +115,7 @@ d:/work/sdl_wii/source/include/object_holder.h:
 d:/work/sdl_wii/source/include/animation_holder.h:
 
 d:/work/sdl_wii/source/include/animation.h:
+
+d:/work/sdl_wii/source/include/spawner.h:
 
 d:/work/sdl_wii/source/include/audio.h:

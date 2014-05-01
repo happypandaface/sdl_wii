@@ -36,7 +36,8 @@ camera.o: d:/work/sdl_wii/source/camera.cpp \
  d:/work/sdl_wii/source/include/audio.h \
  d:/work/sdl_wii/source/include/animation.h \
  d:/work/sdl_wii/source/include/object_holder.h \
- d:/work/sdl_wii/source/include/animation_holder.h
+ d:/work/sdl_wii/source/include/animation_holder.h \
+ d:/work/sdl_wii/source/include/spawner.h
 
 d:/work/sdl_wii/source/include/camera.h:
 
@@ -113,3 +114,5 @@ d:/work/sdl_wii/source/include/animation.h:
 d:/work/sdl_wii/source/include/object_holder.h:
 
 d:/work/sdl_wii/source/include/animation_holder.h:
+
+d:/work/sdl_wii/source/include/spawner.h:

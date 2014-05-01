@@ -27,6 +27,8 @@
 #include "wall.h"
 #include "giblet.h"
 #include "background.h"
+#include "stone_emblem.h"
+#include "wall_gun.h"
  
 // screen surface, the place where everything will get print onto
 SDL_Surface *screen = NULL;
@@ -41,6 +43,10 @@ void init(GameProperties *gameProps)
 		SDL_Delay( 5000 );
 		exit(EXIT_FAILURE);
 	}
+	#ifdef DEBUG_BUILD
+		freopen( "CON", "w", stdout );
+		freopen( "CON", "w", stderr );
+	#endif
  
 	// button initialization
 	//WPAD_Init();
@@ -111,22 +117,40 @@ int main(int argc, char** argv){
 	gameProps->getCam()->addDrag(caveBg, 0.91);
 	objHolder->addObject(caveBg);
 	
-	Player *p1 = new Player();
-	p1->setController(0);
-	p1->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-	objHolder->addObject(p1);
-	
-	Player *p2 = new Player();
-	p2->setController(1);
-	p2->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-	objHolder->addObject(p2);
-	
 	SpikeBall *sb = new SpikeBall();
 	sb->load(gameProps->getResLoader(), gameProps->getAnimHolder());
 	sb->setPos(5, 5);
 	objHolder->addObject(sb);
 	
-	for (int i = 0; i < 100; ++i)
+	SpikeBall *sb2 = new SpikeBall();
+	sb2->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	sb2->setNumPatrol(2);
+	sb2->addPatrol(10, 5, 1);
+	sb2->addPatrol(10, 3, 1);
+	sb2->setPos(10, 3);
+	objHolder->addObject(sb2);
+	
+	SpikeBall *sb3 = new SpikeBall();
+	sb3->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	sb3->setNumPatrol(2);
+	sb3->addPatrol(12, 3, 1);
+	sb3->addPatrol(12, 5, 1);
+	sb3->setPos(12, 5);
+	objHolder->addObject(sb3);
+	
+	StoneEmblem *spawn = new StoneEmblem();
+	spawn->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	spawn->setPos(1, 3);
+	objHolder->addObject(spawn);
+	
+	StoneEmblem *spawn2 = new StoneEmblem();
+	spawn2->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	spawn2->setPos(7, 3);
+	objHolder->addObject(spawn2);
+	
+	gameProps->setActiveSpawn(spawn);
+	
+	for (int i = 0; i < 14; ++i)
 	{
 		Wall *w = new Wall();
 		w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
@@ -134,8 +158,33 @@ int main(int argc, char** argv){
 		objHolder->addObject(w);
 	}
 	
-	gameProps->getCam()->addFollow(p1);
-	gameProps->getCam()->addFollow(p2);
+	for (int i = 0; i < 3; ++i)
+	{
+		Wall *w = new Wall();
+		w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		w->setPos(14, 5-i);
+		objHolder->addObject(w);
+	}
+	
+	WallGun *wg = new WallGun();
+	wg->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	wg->setPos(13.5, 3);
+	objHolder->addObject(wg);
+	
+	// now that we're done adding all the walls, we gotta calculate all the wall's neighbors
+	//  to mitigate the foul glitch only known as... "the you sometimes get tripped up when
+	//  going over floors glitch" also it makes the tiles look nicer
+	objHolder->resetIterator(objIter);
+	BaseObject *curr;
+	while(objHolder->hasNext(objIter))
+	{
+		curr = objHolder->next(objIter);
+		Wall *wll = dynamic_cast<Wall*>(curr);
+		if (wll)
+		{
+			wll->calcNeighbors(objHolder, gameProps);
+		}
+	}
  
 	// this is the endless while loop until done = true
 	while (!done)
@@ -150,6 +199,31 @@ int main(int argc, char** argv){
 		ftime = (current_time - old_time) / 1000.0f;
 		if (ftime > .1)
 			ftime = .1;
+		
+		if (gameProps->getPlayersLeft() == 0)
+		{
+			Pos2 *spawnPos = gameProps->getSpawnPos();
+			if (spawnPos)
+			{
+				Player *p1 = new Player();
+				p1->setController(0);
+				p1->setPos(spawnPos->getX(), spawnPos->getY());
+				p1->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+				objHolder->addObject(p1);
+				
+				Player *p2 = new Player();
+				p2->setController(1);
+				p2->setPos(spawnPos->getX(), spawnPos->getY());
+				p2->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+				objHolder->addObject(p2);
+				
+				gameProps->addPlayer();
+				gameProps->addPlayer();
+				
+				gameProps->getCam()->addFollow(p1);
+				gameProps->getCam()->addFollow(p2);
+			}
+		}
 		
 		grav->update(objHolder, ftime);
 		
@@ -177,22 +251,12 @@ int main(int argc, char** argv){
 			else
 				curr = NULL;
 			if (objToRemove != NULL)
-				objHolder->removeObject(objToRemove);
+				objHolder->removeObject(objToRemove, 1);
 			if (curr == NULL)
 				break;
 		}
 		gameProps->addObjsTo(objHolder);
 		gameProps->getCam()->update(gameProps, ftime);
-		/*
-		p1->update(gameProps, audioPlayer, contrlr, ftime);
-		p1->draw(gameProps, screen);
-		
-		p2->update(gameProps, audioPlayer, contrlr, ftime);
-		p2->draw(gameProps, screen);
-		
-		w->update(gameProps, audioPlayer, contrlr, ftime);
-		w->draw(gameProps, screen);
-		*/
 		
 		SDL_Flip(screen);
 	}

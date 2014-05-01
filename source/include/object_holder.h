@@ -20,7 +20,7 @@ class ObjectHolder
 		BaseObject *next(struct ObjectIterator* oi);
 		void clear();
 		int addObject(BaseObject *bo);
-		int removeObject(BaseObject *bo);
+		int removeObject(BaseObject *bo, int isDeleting);
 	private:
 		struct ObjectLink *firstLink;
 };

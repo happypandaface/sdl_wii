@@ -36,6 +36,7 @@ giblet.o: d:/work/sdl_wii/source/giblet.cpp \
  d:/work/sdl_wii/source/include/object_holder.h \
  d:/work/sdl_wii/source/include/animation_holder.h \
  d:/work/sdl_wii/source/include/animation.h \
+ d:/work/sdl_wii/source/include/spawner.h \
  d:/work/sdl_wii/source/include/audio.h
 
 d:/work/sdl_wii/source/include/giblet.h:
@@ -111,5 +112,7 @@ d:/work/sdl_wii/source/include/object_holder.h:
 d:/work/sdl_wii/source/include/animation_holder.h:
 
 d:/work/sdl_wii/source/include/animation.h:
+
+d:/work/sdl_wii/source/include/spawner.h:
 
 d:/work/sdl_wii/source/include/audio.h:

@@ -35,7 +35,7 @@ void ObjectHolder::clear()
 		firstLink = temp;
 	}
 }
-int ObjectHolder::removeObject(BaseObject *bo)
+int ObjectHolder::removeObject(BaseObject *bo, int isDeleting)
 {
 	struct ObjectLink *last = NULL;
 	struct ObjectLink *curr = firstLink;
@@ -53,13 +53,18 @@ int ObjectHolder::removeObject(BaseObject *bo)
 		return -1;
 	if (last == NULL)// it was the first object
 	{
+		struct ObjectLink *temp = firstLink;
 		firstLink = firstLink->next;
-		// TODO: if destroying, delete the obj of the firstLink
+		if (isDeleting > 0)
+			delete temp->obj;
+		delete temp;
 		return 1;
 	}
 	// this is the last option, it's in the list but not the first
 	last->next = curr->next;
-	// TODO: if destroying, delete the obj of curr
+	if (isDeleting > 0)
+		delete curr->obj;
+	delete curr;
 	return 1;
 }
 int ObjectHolder::addObject(BaseObject *bo)

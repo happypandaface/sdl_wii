@@ -10,6 +10,7 @@ Player::Player()
 	controller_num = 0;
 	jumpVel = 8;
 	jumpGlide = 18;
+	setLayer(1);
 	size->set(.5, 1);
 }
 
@@ -43,12 +44,30 @@ void Player::doDeath(ObjectHolder *objHolder, GameProperties *gameProps, AudioPl
 		g1->setPos(pos->getX(), pos->getY());
 		gameProps->addObject(g1);
 	}
+	gameProps->removePlayer();
 	removeType(TYP_DEAD);
 	gameProps->getCam()->removeFollow(this);
 }
 
+int Player::each_object(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, BaseObject *curr, float delta)
+{
+	Player *plr = dynamic_cast<Player*>(curr);
+	if (plr != NULL)
+	{
+		float dist = getPosition()->dst(curr->getPosition());
+		if (dist > 12)
+		{
+			die(this);
+			curr->die(this);
+		}
+	}
+	return 0;
+}
+
 int Player::update(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta)
 {
+	if (getPosition()->getY() > 7)
+		die(NULL);
 	if (contrlr->key_down(controller_num, CTRL_LEFT))
 		vel->addX(-delta*speed);
 	if (contrlr->key_down(controller_num, CTRL_RIGHT))

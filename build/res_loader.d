@@ -34,7 +34,9 @@ res_loader.o: d:/work/sdl_wii/source/res_loader.cpp \
  d:/work/sdl_wii/source/include/images/coolGuy.h \
  d:/work/sdl_wii/source/include/images/spikeBall.h \
  d:/work/sdl_wii/source/include/images/caveStory.h \
- d:/work/sdl_wii/source/include/images/giblet.h
+ d:/work/sdl_wii/source/include/images/giblet.h \
+ d:/work/sdl_wii/source/include/images/stoneEmblemSheet.h \
+ d:/work/sdl_wii/source/include/images/wallGun.h
 
 d:/devkitPro/libogc/include/SDL/sdl_image.h:
 
@@ -107,3 +109,7 @@ d:/work/sdl_wii/source/include/images/spikeBall.h:
 d:/work/sdl_wii/source/include/images/caveStory.h:
 
 d:/work/sdl_wii/source/include/images/giblet.h:
+
+d:/work/sdl_wii/source/include/images/stoneEmblemSheet.h:
+
+d:/work/sdl_wii/source/include/images/wallGun.h:

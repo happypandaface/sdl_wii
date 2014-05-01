@@ -3,13 +3,70 @@
 #include "pos2.h"
 #include <iostream>
 
-struct Frame
+AnimationFrame::AnimationFrame()
 {
-	int image_type;
-	// TODO: have multiple images with multiple offsets
-	float time;
-	Pos2 offset;
-};
+	num_images = 0;
+	image_type = NULL;
+	offset = NULL;
+	time = 1;
+	added_images = 0;
+}
+AnimationFrame::AnimationFrame(int ni)
+{
+	setNumImages(ni);
+}
+void AnimationFrame::setNumImages(int ni)
+{
+	if (image_type != NULL)
+		delete[] image_type;
+	if (offset != NULL)
+		delete[] offset;
+	num_images = ni;
+	image_type = new int[num_images];
+	offset = new Pos2[num_images];
+	time = 1;
+	added_images = 0;
+}
+AnimationFrame::~AnimationFrame()
+{
+	if (image_type != NULL)
+		delete[] image_type;
+	if (offset != NULL)
+		delete[] offset;
+}
+void AnimationFrame::setTime(float t)
+{
+	time = t;
+}
+float AnimationFrame::getTime()
+{
+	return time;
+}
+void AnimationFrame::addImage(int img_type, float offsetX, float offsetY)
+{
+	image_type[added_images] = img_type;
+	offset[added_images].set(offsetX, offsetY);
+	++added_images;
+}
+int AnimationFrame::getNumImages()
+{
+	// this returns the images added, so that you
+	// 	can allocated more memory than you need
+	//	without breaking the animation system.
+	return added_images;
+}
+int AnimationFrame::getImage(int num)
+{
+	if (num >= added_images)
+		return -1;
+	return image_type[num];
+}
+Pos2 *AnimationFrame::getOffset(int num)
+{
+	if (num >= added_images)
+		return NULL;
+	return &(offset[num]);
+}
 
 AnimationInstance::AnimationInstance(Animation *a)
 {
@@ -44,7 +101,7 @@ Animation::Animation(int nf)
 {
 	numFrames = nf;
 	totalTime = 0;
-	frames = new struct Frame[numFrames];
+	frames = new AnimationFrame[numFrames];
 	curFrame = 0;
 	baseSpeed = 0;
 	src_rect = new SDL_Rect;
@@ -70,20 +127,23 @@ float Animation::getBaseSpeed()
 {
 	return baseSpeed;
 }
+AnimationFrame *Animation::getNewframe()
+{
+	AnimationFrame *rtn = &(frames[curFrame]);
+	curFrame++;
+	return rtn;
+}
 void Animation::addFrame(int img, float x, float y, float time)
 {
-	struct Frame *frame = new Frame;
-	frame->image_type = img;
-	frame->offset.setX(x);
-	frame->offset.setY(y);
-	frame->time = time;
 	totalTime += time;
-	frames[curFrame] = *frame;
+	frames[curFrame].setNumImages(1);
+	frames[curFrame].addImage(img, x, y);
+	frames[curFrame].setTime(time);
 	++curFrame;
 }
 void Animation::draw(ResourceLoader *resLoader, SDL_Surface *screen, AnimationInstance *ai, float x, float y)
 {
-	struct Frame *currFrame = NULL;//&(frames[(int)floor(ai->getComplete()*numFrames)]);
+	AnimationFrame *currFrame = NULL;//&(frames[(int)floor(ai->getComplete()*numFrames)]);
 	float cumulativeTime = 0;
 	for (int i = 0; i < numFrames; ++i)
 	{
@@ -91,14 +151,18 @@ void Animation::draw(ResourceLoader *resLoader, SDL_Surface *screen, AnimationIn
 			currFrame = &(frames[i]);
 		else
 			break;
-		cumulativeTime += currFrame->time;
+		cumulativeTime += currFrame->getTime();
 	}
 	if (currFrame != NULL)
 	{
-		resLoader->draw_image(
-			currFrame->image_type, 
-			screen, x+currFrame->offset.getX(), 
-			y+currFrame->offset.getY());
+		for (int i = 0; i < currFrame->getNumImages(); ++i)
+		{
+			Pos2 *offset = currFrame->getOffset(i);
+			resLoader->draw_image(
+				currFrame->getImage(i), 
+				screen, x+offset->getX(), 
+				y+offset->getY());
+		}
 	}
 	//SDL_BlitSurface( resLoader->get_image(currFrame->image_type), src_rect, screen, dst_rect );
 }

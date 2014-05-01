@@ -20,6 +20,7 @@ class Player : public BaseObject
 		void die(BaseObject *killer);
 		void load_animations(AnimationHolder *animHolder);
 		int update(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, float delta);
+		int each_object(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, BaseObject *curr, float delta);
 		void doDeath(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta);
 	private:
 		int controller_num;

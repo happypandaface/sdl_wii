@@ -36,6 +36,7 @@ gravity.o: d:/work/sdl_wii/source/gravity.cpp \
  d:/work/sdl_wii/source/include/camera.h \
  d:/work/sdl_wii/source/include/animation_holder.h \
  d:/work/sdl_wii/source/include/animation.h \
+ d:/work/sdl_wii/source/include/spawner.h \
  d:/work/sdl_wii/source/include/audio.h \
  d:/work/sdl_wii/source/include/player.h
 
@@ -112,6 +113,8 @@ d:/work/sdl_wii/source/include/camera.h:
 d:/work/sdl_wii/source/include/animation_holder.h:
 
 d:/work/sdl_wii/source/include/animation.h:
+
+d:/work/sdl_wii/source/include/spawner.h:
 
 d:/work/sdl_wii/source/include/audio.h:
 

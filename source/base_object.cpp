@@ -23,6 +23,7 @@ BaseObject::~BaseObject()
 	delete size;
 	delete vel;
 	delete offset;
+	delete animInst;
 }
 
 void BaseObject::setPos(float x, float y)
@@ -33,6 +34,8 @@ void BaseObject::setPos(float x, float y)
 
 void BaseObject::setAnimation(Animation *a)
 {
+	if (animInst != NULL)
+		delete animInst;
 	animInst = new AnimationInstance(a);
 }
 
@@ -78,6 +81,13 @@ void BaseObject::setOffset(float x, float y)
 	offset->set(x, y);
 }
 
+
+int BaseObject::each_object(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, BaseObject *curr, float delta)
+{
+	
+	return 0;
+}
+
 int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, float delta)
 {
 	//kinematic stuff
@@ -93,6 +103,7 @@ int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  Audi
 		while(objHolder->hasNext(objIter))
 		{
 			curr = objHolder->next(objIter);
+			each_object(objHolder, gameProps,  audioPlayer, contrlr, curr, delta);
 			if (curr->checkType(TYP_SOLID))
 			{
 				Pos2 *dst = pos->intersection(
@@ -180,13 +191,23 @@ int BaseObject::draw(ResourceLoader *resLoader, GameProperties *gameProps, SDL_S
 	dst_rect->w = 64;
 	dst_rect->h = 64;
 	SDL_BlitSurface( resLoader->get_image(IMG_TEST), src_rect, screen, dst_rect );*/
+	//SDL_BlitSurface( spriteImage, src_rect, screen, dst_rect );
+	
 	Pos2 *tileSize = gameProps->getTileSize();
+	
+	return doDraw(
+		(pos->getX()-gameProps->getOffset()->getX()+offset->getX())*(tileSize->getX()),
+		(pos->getY()-gameProps->getOffset()->getY()+offset->getY())*(tileSize->getY()),
+		resLoader, gameProps, screen);
+}
+
+int BaseObject::doDraw(float x, float y, ResourceLoader *resLoader, GameProperties *gameProps, SDL_Surface *screen)
+{
 	animInst->draw(
 		resLoader, 
 		screen, 
-		(pos->getX()-gameProps->getOffset()->getX()+offset->getX())*(tileSize->getX()), 
-		(pos->getY()-gameProps->getOffset()->getY()+offset->getY())*(tileSize->getY())
+		x, 
+		y
 	);
-	//SDL_BlitSurface( spriteImage, src_rect, screen, dst_rect );
 	return 1;
 }

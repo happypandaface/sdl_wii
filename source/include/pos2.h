@@ -25,6 +25,9 @@ class Pos2
 		float mulY(float scl);
 		float len2();
 		float len();
+		Pos2 *nor();
+		float dst2(Pos2 *other);
+		float dst(Pos2 *other);
 		Pos2 *rnd();
 		Pos2 *addMul(Pos2 *add, float mul);
 		Pos2 *div(Pos2 *div);

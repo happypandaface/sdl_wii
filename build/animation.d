@@ -28,6 +28,7 @@ animation.o: d:/work/sdl_wii/source/animation.cpp \
  d:/devkitPro/libogc/include/SDL/SDL_timer.h \
  d:/devkitPro/libogc/include/SDL/SDL_version.h \
  d:/work/sdl_wii/source/include/res_loader.h \
+ d:/work/sdl_wii/source/include/pos2.h \
  d:/work/sdl_wii/source/include/pos2.h
 
 d:/work/sdl_wii/source/include/animation.h:
@@ -87,5 +88,7 @@ d:/devkitPro/libogc/include/SDL/SDL_timer.h:
 d:/devkitPro/libogc/include/SDL/SDL_version.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
+
+d:/work/sdl_wii/source/include/pos2.h:
 
 d:/work/sdl_wii/source/include/pos2.h:

@@ -36,7 +36,9 @@ game_properties.o: d:/work/sdl_wii/source/game_properties.cpp \
  d:/work/sdl_wii/source/include/audio.h \
  d:/work/sdl_wii/source/include/animation.h \
  d:/work/sdl_wii/source/include/object_holder.h \
- d:/work/sdl_wii/source/include/animation_holder.h
+ d:/work/sdl_wii/source/include/animation_holder.h \
+ d:/work/sdl_wii/source/include/spawner.h \
+ d:/work/sdl_wii/source/include/spawner.h
 
 d:/work/sdl_wii/source/include/game_properties.h:
 
@@ -113,3 +115,7 @@ d:/work/sdl_wii/source/include/animation.h:
 d:/work/sdl_wii/source/include/object_holder.h:
 
 d:/work/sdl_wii/source/include/animation_holder.h:
+
+d:/work/sdl_wii/source/include/spawner.h:
+
+d:/work/sdl_wii/source/include/spawner.h:

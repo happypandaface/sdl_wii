@@ -1,9 +1,9 @@
 #ifndef _SPIKE_BALL_H_
 #define _SPIKE_BALL_H_
 
-#include "base_object.h"
+#include "patroller.h"
 
-class SpikeBall : public BaseObject
+class SpikeBall : public Patroller
 {
 	public:
 		void load_animations(AnimationHolder *animHolder);

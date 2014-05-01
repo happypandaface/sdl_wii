@@ -20,6 +20,27 @@ Pos2::~Pos2()
 {
 }
 
+float Pos2::dst2(Pos2 *other)
+{
+	float distX = getX()-other->getX();
+	float distY = getY()-other->getY();
+	return (distX*distX+distY+distY);
+}
+
+Pos2 *Pos2::nor()
+{
+	float length = len();
+	if (length == 0)
+		return NULL;
+	mul(1.0/length);
+	return this;
+}
+
+float Pos2::dst(Pos2 *other)
+{
+	return sqrt(dst2(other));
+}
+
 string Pos2::toString()
 {
 	ostringstream ss;

@@ -42,15 +42,19 @@ sdl_wii.o: d:/work/sdl_wii/source/sdl_wii.cpp \
  d:/work/sdl_wii/source/include/animation.h \
  d:/work/sdl_wii/source/include/object_holder.h \
  d:/work/sdl_wii/source/include/animation_holder.h \
+ d:/work/sdl_wii/source/include/spawner.h \
  d:/work/sdl_wii/source/include/object_holder.h \
  d:/work/sdl_wii/source/include/gravity.h \
  d:/work/sdl_wii/source/include/camera.h \
  d:/work/sdl_wii/source/include/animation_holder.h \
  d:/work/sdl_wii/source/include/player.h \
  d:/work/sdl_wii/source/include/spike_ball.h \
+ d:/work/sdl_wii/source/include/patroller.h \
  d:/work/sdl_wii/source/include/wall.h \
  d:/work/sdl_wii/source/include/giblet.h \
- d:/work/sdl_wii/source/include/background.h
+ d:/work/sdl_wii/source/include/background.h \
+ d:/work/sdl_wii/source/include/stone_emblem.h \
+ d:/work/sdl_wii/source/include/wall_gun.h
 
 d:/devkitPro/libogc/include/SDL/SDL.h:
 
@@ -138,6 +142,8 @@ d:/work/sdl_wii/source/include/object_holder.h:
 
 d:/work/sdl_wii/source/include/animation_holder.h:
 
+d:/work/sdl_wii/source/include/spawner.h:
+
 d:/work/sdl_wii/source/include/object_holder.h:
 
 d:/work/sdl_wii/source/include/gravity.h:
@@ -150,8 +156,14 @@ d:/work/sdl_wii/source/include/player.h:
 
 d:/work/sdl_wii/source/include/spike_ball.h:
 
+d:/work/sdl_wii/source/include/patroller.h:
+
 d:/work/sdl_wii/source/include/wall.h:
 
 d:/work/sdl_wii/source/include/giblet.h:
 
 d:/work/sdl_wii/source/include/background.h:
+
+d:/work/sdl_wii/source/include/stone_emblem.h:
+
+d:/work/sdl_wii/source/include/wall_gun.h:

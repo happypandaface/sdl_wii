@@ -31,7 +31,9 @@ class BaseObject
 		virtual ~BaseObject();
 		virtual int load(ResourceLoader *resLoader, AnimationHolder *animHolder);
 		virtual int update(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta);
+		virtual int each_object(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, BaseObject *curr, float delta);
 		virtual int draw(ResourceLoader *resLoader, GameProperties *gameProps, SDL_Surface *screen);
+		virtual int doDraw(float x, float y, ResourceLoader *resLoader, GameProperties *gameProps, SDL_Surface *screen);//this is the one you want to override if you want multiple animations
 		virtual void setPos(float x, float y);
 		virtual int checkIfShouldBeRemoved();
 		virtual void setToBeRemoved(int remove);

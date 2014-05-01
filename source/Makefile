@@ -6,7 +6,7 @@ SRCS := $(shell find $(SOURCEDIR) -name '*.cpp')
 # this takes a variable and goes through and replaces a string with another, in this case
 # it's replacing '.cpp' with '.o'
 OBJS = $(SRCS:.cpp=.o)
-CFLAGS = -L../lib -I../source/include -I../source/wininclude -lmingw32 -lSDLmain -lSDL -lSDL_image -DWINDOWS_BUILD -Wall
+CFLAGS = -L../lib -I../source/include -I../source/wininclude -lmingw32 -lSDLmain -lSDL -lSDL_image -DWINDOWS_BUILD -DDEBUG_BUILD -Wall
 
 all: program
 

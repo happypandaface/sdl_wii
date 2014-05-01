@@ -2,6 +2,7 @@
 
 int SpikeBall::update(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, float delta)
 {
+	Patroller::doPatrol(delta);
 	ObjectIterator *objIter = objHolder->getIterator();
 	BaseObject *curr;
 	while(objHolder->hasNext(objIter))

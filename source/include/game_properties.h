@@ -9,6 +9,9 @@ class GameProperties;
 #include "object_holder.h"
 #include "animation_holder.h"
 #include "res_loader.h"
+#include "spawner.h"
+
+#define MAX_PLAYERS 2
 
 class GameProperties
 {
@@ -26,7 +29,14 @@ class GameProperties
 		void addObjsTo(ObjectHolder *obj);
 		ResourceLoader *getResLoader();
 		AnimationHolder *getAnimHolder();
+		void removePlayer();
+		int getPlayersLeft();
+		void addPlayer();
+		void setActiveSpawn(Spawner *s);
+		Pos2 *getSpawnPos();
 	private:
+		Spawner *activeSpawn;
+		int players;
 		ResourceLoader *resLoader;
 		AnimationHolder *animHolder;
 		Camera *cam;

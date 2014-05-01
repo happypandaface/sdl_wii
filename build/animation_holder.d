@@ -28,7 +28,8 @@ animation_holder.o: d:/work/sdl_wii/source/animation_holder.cpp \
  d:/devkitPro/libogc/include/SDL/SDL_loadso.h \
  d:/devkitPro/libogc/include/SDL/SDL_timer.h \
  d:/devkitPro/libogc/include/SDL/SDL_version.h \
- d:/work/sdl_wii/source/include/res_loader.h
+ d:/work/sdl_wii/source/include/res_loader.h \
+ d:/work/sdl_wii/source/include/pos2.h
 
 d:/work/sdl_wii/source/include/animation_holder.h:
 
@@ -89,3 +90,5 @@ d:/devkitPro/libogc/include/SDL/SDL_timer.h:
 d:/devkitPro/libogc/include/SDL/SDL_version.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
+
+d:/work/sdl_wii/source/include/pos2.h:

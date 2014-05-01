@@ -1,4 +1,5 @@
 #include "game_properties.h"
+#include "spawner.h"
 
 GameProperties::GameProperties()
 {
@@ -9,6 +10,8 @@ GameProperties::GameProperties()
 	objsToAdd = new ObjectHolder();
 	resLoader = new ResourceLoader();
 	animHolder = new AnimationHolder();
+	players = 0;
+	activeSpawn = NULL;
 }
 
 GameProperties::~GameProperties()
@@ -20,6 +23,44 @@ GameProperties::~GameProperties()
 	delete objsToAdd;
 	delete resLoader;
 	delete animHolder;
+}
+
+void GameProperties::setActiveSpawn(Spawner *s)
+{
+	if (activeSpawn != NULL)
+		activeSpawn->setInactive();
+	activeSpawn = s;
+	activeSpawn->setActive();
+}
+Pos2 *GameProperties::getSpawnPos()
+{
+	if (activeSpawn == NULL)
+		return NULL;
+	return activeSpawn->getSpawnPos();
+}
+
+void GameProperties::removePlayer()
+{
+	//for (int i = 0; i < MAX_PLAYERS; ++i)
+	//	if (players[i] == p)
+	//		players[i] = NULL;
+	--players;
+}
+int GameProperties::getPlayersLeft()
+{
+	//int left = 0;
+	//for (int i = 0; i < MAX_PLAYERS; ++i)
+	//	if (players[i] != NULL)
+	//		left++;
+	//return left;
+	return players;
+}
+void GameProperties::addPlayer(/*Player *p*/)
+{
+	//for (int i = 0; i < MAX_PLAYERS; ++i)
+	//	if (players[i] == NULL)
+	//		players[i] = p;
+	++players;
 }
 
 ResourceLoader *GameProperties::getResLoader()

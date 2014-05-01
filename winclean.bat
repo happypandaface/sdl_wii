@@ -1,0 +1,1 @@
+rm source/*.o

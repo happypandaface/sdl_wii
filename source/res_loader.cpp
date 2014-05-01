@@ -10,6 +10,8 @@
 #include "images/spikeBall.h"
 #include "images/caveStory.h"
 #include "images/giblet.h"
+#include "images/stoneEmblemSheet.h"
+#include "images/wallGun.h"
 
 class ResourceLoader::ResImage
 {
@@ -101,7 +103,7 @@ float ResourceLoader::load()
 	SDL_RWops * flowerFile = SDL_RWFromMem(testSprite,testSpriteSize);
 	SDL_Surface *flowerSurf = IMG_LoadJPG_RW(flowerFile);
 	
-	SDL_RWops * dirtFile = SDL_RWFromMem(dirtSquare,dirtSquareSize);
+	SDL_RWops * dirtFile = SDL_RWFromMem(dirtSquareData,dirtSquareSize);
 	SDL_Surface *dirtSurf = IMG_LoadPNG_RW(dirtFile);
 	
 	SDL_RWops * coolGuyFile = SDL_RWFromMem(coolGuy,coolGuySize);
@@ -116,12 +118,30 @@ float ResourceLoader::load()
 	SDL_RWops * gibletFile = SDL_RWFromMem(gibletData,gibletSize);
 	SDL_Surface *gibletSurf = IMG_LoadPNG_RW(gibletFile);
 	
+	SDL_RWops * stoneEmblemFile = SDL_RWFromMem(stoneEmblemData,stoneEmblemSize);
+	SDL_Surface *stoneEmblemSurf = IMG_LoadPNG_RW(stoneEmblemFile);
+	
+	SDL_RWops * wallGunFile = SDL_RWFromMem(wallGunData,wallGunSize);
+	SDL_Surface *wallGunSurf = IMG_LoadPNG_RW(wallGunFile);
+	
 	images[get_arr_pos(IMG_TEST)] = new ResourceLoader::ResImage(
 		IMG_TEST, flowerSurf,
 		0, 0, 64, 64);
 	images[get_arr_pos(IMG_DIRT_SQUARE)] = new ResourceLoader::ResImage(
 		IMG_DIRT_SQUARE, dirtSurf,
 		0, 0, 64, 64);
+	images[get_arr_pos(IMG_DIRT_SQUARE_NORTH)] = new ResourceLoader::ResImage(
+		IMG_DIRT_SQUARE_NORTH, dirtSurf,
+		64*2, 0, 64, 64);
+	images[get_arr_pos(IMG_DIRT_SQUARE_SOUTH)] = new ResourceLoader::ResImage(
+		IMG_DIRT_SQUARE_SOUTH, dirtSurf,
+		64*3, 0, 64, 64);
+	images[get_arr_pos(IMG_DIRT_SQUARE_EAST)] = new ResourceLoader::ResImage(
+		IMG_DIRT_SQUARE_EAST, dirtSurf,
+		64*4, 0, 64, 64);
+	images[get_arr_pos(IMG_DIRT_SQUARE_WEST)] = new ResourceLoader::ResImage(
+		IMG_DIRT_SQUARE_WEST, dirtSurf,
+		64*1, 0, 64, 64);
 	images[get_arr_pos(IMG_COOL_GUY)] = new ResourceLoader::ResImage(
 		IMG_COOL_GUY, coolGuySurf,
 		20, 10, 33, 76);
@@ -145,6 +165,21 @@ float ResourceLoader::load()
 		0, 0, 920, 575);
 	images[get_arr_pos(IMG_GIBLET1)] = new ResourceLoader::ResImage(
 		IMG_GIBLET1, gibletSurf,
+		0, 0, 32, 32);
+	images[get_arr_pos(IMG_STONE_EMBLEM1)] = new ResourceLoader::ResImage(
+		IMG_STONE_EMBLEM1, stoneEmblemSurf,
+		0, 0, 64, 64);
+	images[get_arr_pos(IMG_STONE_EMBLEM2)] = new ResourceLoader::ResImage(
+		IMG_STONE_EMBLEM2, stoneEmblemSurf,
+		64, 0, 64, 64);
+	images[get_arr_pos(IMG_STONE_EMBLEM3)] = new ResourceLoader::ResImage(
+		IMG_STONE_EMBLEM3, stoneEmblemSurf,
+		0, 64, 64, 64);
+	images[get_arr_pos(IMG_STONE_EMBLEM4)] = new ResourceLoader::ResImage(
+		IMG_STONE_EMBLEM4, stoneEmblemSurf,
+		64, 64, 64, 64);
+	images[get_arr_pos(IMG_WALL_GUN)] = new ResourceLoader::ResImage(
+		IMG_WALL_GUN, wallGunSurf,
 		0, 0, 32, 32);
 	
 	return 1.0f;
