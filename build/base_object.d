@@ -30,6 +30,7 @@ base_object.o: d:/work/sdl_wii/source/base_object.cpp \
  d:/work/sdl_wii/source/include/pos2.h \
  d:/work/sdl_wii/source/include/controller.h \
  d:/work/sdl_wii/source/include/res_loader.h \
+ d:/work/sdl_wii/source/include/image_effect.h \
  d:/work/sdl_wii/source/include/game_properties.h \
  d:/work/sdl_wii/source/include/camera.h \
  d:/work/sdl_wii/source/include/base_object.h \
@@ -100,6 +101,8 @@ d:/work/sdl_wii/source/include/pos2.h:
 d:/work/sdl_wii/source/include/controller.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
+
+d:/work/sdl_wii/source/include/image_effect.h:
 
 d:/work/sdl_wii/source/include/game_properties.h:
 

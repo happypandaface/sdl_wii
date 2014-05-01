@@ -9,7 +9,8 @@ class Lazer : public BaseObject
 		Lazer();
 		virtual int update(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta);
 		virtual void setDirection(char dir);
-		void die(BaseObject *killer);
+		virtual void die(BaseObject *killer);
+		virtual int each_object(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, BaseObject *curr, float delta);
 	private:
 		char dir;
 };

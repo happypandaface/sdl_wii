@@ -31,6 +31,7 @@ stone_emblem.o: d:/work/sdl_wii/source/stone_emblem.cpp \
  d:/work/sdl_wii/source/include/pos2.h \
  d:/work/sdl_wii/source/include/controller.h \
  d:/work/sdl_wii/source/include/res_loader.h \
+ d:/work/sdl_wii/source/include/image_effect.h \
  d:/work/sdl_wii/source/include/game_properties.h \
  d:/work/sdl_wii/source/include/camera.h \
  d:/work/sdl_wii/source/include/object_holder.h \
@@ -38,7 +39,8 @@ stone_emblem.o: d:/work/sdl_wii/source/stone_emblem.cpp \
  d:/work/sdl_wii/source/include/animation.h \
  d:/work/sdl_wii/source/include/spawner.h \
  d:/work/sdl_wii/source/include/audio.h \
- d:/work/sdl_wii/source/include/player.h
+ d:/work/sdl_wii/source/include/player.h \
+ d:/work/sdl_wii/source/include/player_indicator.h
 
 d:/work/sdl_wii/source/include/stone_emblem.h:
 
@@ -104,6 +106,8 @@ d:/work/sdl_wii/source/include/controller.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
 
+d:/work/sdl_wii/source/include/image_effect.h:
+
 d:/work/sdl_wii/source/include/game_properties.h:
 
 d:/work/sdl_wii/source/include/camera.h:
@@ -119,3 +123,5 @@ d:/work/sdl_wii/source/include/spawner.h:
 d:/work/sdl_wii/source/include/audio.h:
 
 d:/work/sdl_wii/source/include/player.h:
+
+d:/work/sdl_wii/source/include/player_indicator.h:

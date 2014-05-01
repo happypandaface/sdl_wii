@@ -10,6 +10,8 @@ AnimationFrame::AnimationFrame()
 	offset = NULL;
 	time = 1;
 	added_images = 0;
+	num_effects = 0;
+	added_effects = 0;
 }
 AnimationFrame::AnimationFrame(int ni)
 {
@@ -33,6 +35,7 @@ AnimationFrame::~AnimationFrame()
 		delete[] image_type;
 	if (offset != NULL)
 		delete[] offset;
+	deleteEffects();
 }
 void AnimationFrame::setTime(float t)
 {
@@ -41,6 +44,39 @@ void AnimationFrame::setTime(float t)
 float AnimationFrame::getTime()
 {
 	return time;
+}
+void AnimationFrame::setEffects(int i)
+{
+	deleteEffects();
+	num_effects = i;
+	added_effects = 0;
+	effects = new ImageEffect*[num_effects];
+}
+void AnimationFrame::addEffect(ImageEffect *ie)
+{
+	effects[added_effects] = ie;
+	++added_effects;
+}
+ImageEffect **AnimationFrame::getEffects()
+{
+	return effects;
+}
+ImageEffect *AnimationFrame::getEffect(int i)
+{
+	return effects[i];
+}
+int AnimationFrame::getEffectSize()
+{
+	return added_effects;
+}
+void AnimationFrame::deleteEffects()
+{
+	for (int i = 0; i < added_effects; ++i)
+		delete effects[i];
+	if (effects != NULL)
+		delete[] effects;
+	num_effects = 0;
+	added_effects = 0;
 }
 void AnimationFrame::addImage(int img_type, float offsetX, float offsetY)
 {
@@ -73,10 +109,25 @@ AnimationInstance::AnimationInstance(Animation *a)
 	animation = a;
 	timePer = 0;
 	speed = animation->getBaseSpeed();
+	maxLoops = animation->getMaxLoops();
+	resetLoops();
 }
 AnimationInstance::~AnimationInstance()
 {
 	
+}
+int AnimationInstance::getTimesLooped()
+{
+	return timesLooped;
+}
+int AnimationInstance::resetLoops()
+{
+	timesLooped = 0;
+	return timesLooped;
+}
+void AnimationInstance::setMaxLoops(int ml)
+{
+	maxLoops = ml;
 }
 void AnimationInstance::setSpeed(float spd)
 {
@@ -86,7 +137,12 @@ void AnimationInstance::update(float delta)
 {
 	timePer += delta*speed;
 	while (timePer > 1)
-		--timePer;
+	{
+		++timesLooped;
+		timePer = 0;
+	}
+	if (maxLoops != -1 && timesLooped >= maxLoops)
+		timePer = 1;
 }
 float AnimationInstance::getComplete()
 {
@@ -114,10 +170,19 @@ Animation::Animation(int nf)
 	dst_rect->y = 0;
 	dst_rect->w = 64;
 	dst_rect->h = 64;
+	baseLoop = -1;
 }
 Animation::~Animation()
 {
 	delete[] frames;
+}
+void Animation::setMaxLoops(int l)
+{
+	baseLoop = l;
+}
+int Animation::getMaxLoops()
+{
+	return baseLoop;
 }
 void Animation::setBaseSpeed(float bs)
 {
@@ -133,6 +198,12 @@ AnimationFrame *Animation::getNewframe()
 	curFrame++;
 	return rtn;
 }
+void Animation::compileFrames()
+{
+	totalTime = 0;
+	for (int i = 0; i < curFrame; ++i)
+		totalTime += frames[i].getTime();
+}
 void Animation::addFrame(int img, float x, float y, float time)
 {
 	totalTime += time;
@@ -143,25 +214,33 @@ void Animation::addFrame(int img, float x, float y, float time)
 }
 void Animation::draw(ResourceLoader *resLoader, SDL_Surface *screen, AnimationInstance *ai, float x, float y)
 {
-	AnimationFrame *currFrame = NULL;//&(frames[(int)floor(ai->getComplete()*numFrames)]);
+	AnimationFrame *currFrame = NULL;
 	float cumulativeTime = 0;
+	float timeThisFrame = 0;
+	float timeInSeconds = ai->getComplete()*totalTime;
 	for (int i = 0; i < numFrames; ++i)
 	{
-		if (ai->getComplete()*totalTime >= cumulativeTime)
+		if (timeInSeconds >= cumulativeTime)
+		{
+			timeThisFrame = timeInSeconds-cumulativeTime;
 			currFrame = &(frames[i]);
-		else
+		}else
+		{
 			break;
+		}
 		cumulativeTime += currFrame->getTime();
 	}
 	if (currFrame != NULL)
 	{
+		for (int i = 0; i < currFrame->getEffectSize(); ++i)
+			currFrame->getEffect(i)->setTime(timeThisFrame);
 		for (int i = 0; i < currFrame->getNumImages(); ++i)
 		{
 			Pos2 *offset = currFrame->getOffset(i);
 			resLoader->draw_image(
 				currFrame->getImage(i), 
 				screen, x+offset->getX(), 
-				y+offset->getY());
+				y+offset->getY(), currFrame->getEffects(), currFrame->getEffectSize());
 		}
 	}
 	//SDL_BlitSurface( resLoader->get_image(currFrame->image_type), src_rect, screen, dst_rect );

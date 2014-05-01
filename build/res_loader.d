@@ -29,6 +29,7 @@ res_loader.o: d:/work/sdl_wii/source/res_loader.cpp \
  d:/devkitPro/libogc/include/SDL/SDL_version.h \
  d:/work/sdl_wii/source/include/res_loader.h \
  d:/devkitPro/libogc/include/SDL/SDL.h \
+ d:/work/sdl_wii/source/include/image_effect.h \
  d:/work/sdl_wii/source/include/images/testSprite.h \
  d:/work/sdl_wii/source/include/images/dirtSquare.h \
  d:/work/sdl_wii/source/include/images/coolGuy.h \
@@ -36,7 +37,10 @@ res_loader.o: d:/work/sdl_wii/source/res_loader.cpp \
  d:/work/sdl_wii/source/include/images/caveStory.h \
  d:/work/sdl_wii/source/include/images/giblet.h \
  d:/work/sdl_wii/source/include/images/stoneEmblemSheet.h \
- d:/work/sdl_wii/source/include/images/wallGun.h
+ d:/work/sdl_wii/source/include/images/wallGun.h \
+ d:/work/sdl_wii/source/include/images/playerIndicator.h \
+ d:/work/sdl_wii/source/include/images/blueLazer.h \
+ d:/work/sdl_wii/source/include/images/finishLevel.h
 
 d:/devkitPro/libogc/include/SDL/sdl_image.h:
 
@@ -98,6 +102,8 @@ d:/work/sdl_wii/source/include/res_loader.h:
 
 d:/devkitPro/libogc/include/SDL/SDL.h:
 
+d:/work/sdl_wii/source/include/image_effect.h:
+
 d:/work/sdl_wii/source/include/images/testSprite.h:
 
 d:/work/sdl_wii/source/include/images/dirtSquare.h:
@@ -113,3 +119,9 @@ d:/work/sdl_wii/source/include/images/giblet.h:
 d:/work/sdl_wii/source/include/images/stoneEmblemSheet.h:
 
 d:/work/sdl_wii/source/include/images/wallGun.h:
+
+d:/work/sdl_wii/source/include/images/playerIndicator.h:
+
+d:/work/sdl_wii/source/include/images/blueLazer.h:
+
+d:/work/sdl_wii/source/include/images/finishLevel.h:

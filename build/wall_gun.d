@@ -31,13 +31,16 @@ wall_gun.o: d:/work/sdl_wii/source/wall_gun.cpp \
  d:/work/sdl_wii/source/include/pos2.h \
  d:/work/sdl_wii/source/include/controller.h \
  d:/work/sdl_wii/source/include/res_loader.h \
+ d:/work/sdl_wii/source/include/image_effect.h \
  d:/work/sdl_wii/source/include/game_properties.h \
  d:/work/sdl_wii/source/include/camera.h \
  d:/work/sdl_wii/source/include/object_holder.h \
  d:/work/sdl_wii/source/include/animation_holder.h \
  d:/work/sdl_wii/source/include/animation.h \
  d:/work/sdl_wii/source/include/spawner.h \
- d:/work/sdl_wii/source/include/audio.h
+ d:/work/sdl_wii/source/include/audio.h \
+ d:/work/sdl_wii/source/include/red_lazer.h \
+ d:/work/sdl_wii/source/include/lazer.h
 
 d:/work/sdl_wii/source/include/wall_gun.h:
 
@@ -103,6 +106,8 @@ d:/work/sdl_wii/source/include/controller.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
 
+d:/work/sdl_wii/source/include/image_effect.h:
+
 d:/work/sdl_wii/source/include/game_properties.h:
 
 d:/work/sdl_wii/source/include/camera.h:
@@ -116,3 +121,7 @@ d:/work/sdl_wii/source/include/animation.h:
 d:/work/sdl_wii/source/include/spawner.h:
 
 d:/work/sdl_wii/source/include/audio.h:
+
+d:/work/sdl_wii/source/include/red_lazer.h:
+
+d:/work/sdl_wii/source/include/lazer.h:

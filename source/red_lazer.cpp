@@ -27,5 +27,5 @@ int RedLazer::each_object(ObjectHolder *objHolder, GameProperties *gameProps, Au
 			delete dst;
 		}
 	}
-	return 0;
+	return Lazer::each_object(objHolder, gameProps, audioPlayer, contrlr, curr, delta);
 }

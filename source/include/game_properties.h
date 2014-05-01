@@ -30,11 +30,20 @@ class GameProperties
 		ResourceLoader *getResLoader();
 		AnimationHolder *getAnimHolder();
 		void removePlayer();
+		void setPlayers(int i);
 		int getPlayersLeft();
 		void addPlayer();
 		void setActiveSpawn(Spawner *s);
 		Pos2 *getSpawnPos();
+		void freeze();
+		void unfreeze();
+		int isFrozen();
+		void endLevel();
+		void unEndLevel();
+		int isEndingLevel();
 	private:
+		int ending_level;
+		int frozen;
 		Spawner *activeSpawn;
 		int players;
 		ResourceLoader *resLoader;

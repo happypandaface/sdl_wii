@@ -5,6 +5,7 @@ Lazer::Lazer()
 	dir = 0;
 	addType(TYP_HITS);
 	restitution = 0;
+	size->set(.5, .25);
 }
 
 void Lazer::setDirection(char dir)
@@ -25,4 +26,21 @@ int Lazer::update(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlaye
 void Lazer::die(BaseObject *killer)
 {
 	addType(TYP_DEAD);
+}
+
+int Lazer::each_object(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, BaseObject *curr, float delta)
+{
+	if (curr->checkType(TYP_SOLID))
+	{
+		Pos2 *dst = pos->intersection(
+			size, 
+			curr->getPosition(), 
+			curr->getSize());
+		if (dst)
+		{
+			die(this);
+			delete dst;
+		}
+	}
+	return 1;
 }

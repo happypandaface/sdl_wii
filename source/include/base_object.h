@@ -18,6 +18,7 @@ class BaseObject;
 #define TYP_HITS 1<<2
 #define TYP_DEAD 1<<3
 #define TYP_HAS_GRAV 1<<4
+#define TYP_UNFRZN 1<<5
 
 class BaseObject
 {

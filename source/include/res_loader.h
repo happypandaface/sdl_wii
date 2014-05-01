@@ -2,6 +2,7 @@
 #define _IMAGE_LOADER_H
 
 #include "SDL/SDL.h"
+#include "image_effect.h"
 
 #define IMG_TEST 1
 #define IMG_DIRT_SQUARE 2
@@ -38,8 +39,16 @@
 #define IMG_RED_LAZER_1 33
 #define IMG_RED_LAZER_2 34
 #define IMG_RED_LAZER_3 35
+#define IMG_FINISH_LEVEL_1 36
+#define IMG_FINISH_LEVEL_2 37
+#define IMG_FINISH_LEVEL_3 38
+#define IMG_FINISH_LEVEL_4 39
+#define IMG_FINISH_LEVEL_5 40
+#define IMG_FINISH_LEVEL_6 41
+#define IMG_FINISH_LEVEL_7 42
+#define IMG_FINISH_LEVEL_8 43
 
-#define NUM_IMAGES 35 // this should be the num of the last IMG_
+#define NUM_IMAGES 43 // this should be the num of the last IMG_
 
 class ResourceLoader
 {
@@ -48,6 +57,7 @@ class ResourceLoader
 		~ResourceLoader();
 		//SDL_Rect *get_src_rect(int image);
 		void draw_image(int img_type, SDL_Surface *screen, float x, float y);
+		void draw_image(int img_type, SDL_Surface *screen, float x, float y, ImageEffect **effects, int effects_size);
 		float load();
 	private:
 		class ResImage;

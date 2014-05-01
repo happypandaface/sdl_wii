@@ -28,8 +28,11 @@ class AnimationHolder;
 #define ANIM_COOL_GUY_STAND_LEFT 20
 #define ANIM_COOL_GUY_STAND_RIGHT 21
 #define ANIM_RED_LAZER 22
+#define ANIM_FINISH_LEVEL 23
+#define ANIM_PLAYER_CUT_UP_LEFT 24
+#define ANIM_PLAYER_CUT_UP_RIGHT 25
 
-#define NUM_ANIMS 22 // should be the last ANIM_ (assuming they're all incrementing correctly)
+#define NUM_ANIMS 25 // should be the last ANIM_ (assuming they're all incrementing correctly)
 
 class AnimationHolder
 {

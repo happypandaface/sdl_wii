@@ -1,4 +1,5 @@
 #include "object_holder.h"
+#include <math.h>
 
 struct ObjectIterator
 {
@@ -17,20 +18,24 @@ ObjectHolder::ObjectHolder()
 }
 ObjectHolder::~ObjectHolder()
 {
-	while (firstLink != NULL)
-	{
-		struct ObjectLink *temp = firstLink->next;
-		delete firstLink->obj;
-		delete firstLink;
-		firstLink = temp;
-	}
+	destroyObjs();
 }
 void ObjectHolder::clear()
 {
 	while (firstLink != NULL)
 	{
 		struct ObjectLink *temp = firstLink->next;
-		// TODO: delete objs if told
+		delete firstLink;
+		firstLink = temp;
+	}
+}
+void ObjectHolder::destroyObjs()
+{
+	while (firstLink != NULL)
+	{
+		struct ObjectLink *temp = firstLink->next;
+		if (firstLink->obj != NULL)
+			delete firstLink->obj;
 		delete firstLink;
 		firstLink = temp;
 	}
@@ -97,6 +102,7 @@ int ObjectHolder::addObject(BaseObject *bo)
 struct ObjectIterator *ObjectHolder::getIterator()
 {
 	struct ObjectIterator *oi = new ObjectIterator;
+	oi->currObjLnk = NULL;
 	resetIterator(oi);
 	return oi;
 }
@@ -116,6 +122,8 @@ int ObjectHolder::hasNext(struct ObjectIterator* oi)
 }
 BaseObject *ObjectHolder::next(struct ObjectIterator* oi)
 {
+	if (oi == NULL)
+		return NULL;
 	BaseObject *temp = oi->currObjLnk->obj;
 	oi->currObjLnk = oi->currObjLnk->next;
 	return temp;

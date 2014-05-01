@@ -16,6 +16,7 @@ class Camera
 		~Camera();
 		void addFollow(BaseObject *bObj);
 		void removeFollow(BaseObject *bObj);
+		void clear();
 		void addDrag(BaseObject *bObj, float amnt);
 		void removeDrag(BaseObject *bObj);
 		void update(GameProperties *gp, float delta);

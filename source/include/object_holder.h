@@ -19,6 +19,7 @@ class ObjectHolder
 		int hasNext(struct ObjectIterator* oi);
 		BaseObject *next(struct ObjectIterator* oi);
 		void clear();
+		void destroyObjs();
 		int addObject(BaseObject *bo);
 		int removeObject(BaseObject *bo, int isDeleting);
 	private:

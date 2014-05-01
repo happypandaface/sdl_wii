@@ -12,6 +12,8 @@ GameProperties::GameProperties()
 	animHolder = new AnimationHolder();
 	players = 0;
 	activeSpawn = NULL;
+	frozen = 0;
+	ending_level = 0;
 }
 
 GameProperties::~GameProperties()
@@ -39,6 +41,10 @@ Pos2 *GameProperties::getSpawnPos()
 	return activeSpawn->getSpawnPos();
 }
 
+void GameProperties::setPlayers(int i)
+{
+	players = i;
+}
 void GameProperties::removePlayer()
 {
 	//for (int i = 0; i < MAX_PLAYERS; ++i)
@@ -71,18 +77,21 @@ AnimationHolder *GameProperties::getAnimHolder()
 {
 	return animHolder;
 }
-
+#include <iostream>
 void GameProperties::addObjsTo(ObjectHolder *objs)
 {
-	ObjectIterator *objIter = objsToAdd->getIterator();
-	BaseObject *curr;
-	while(objsToAdd->hasNext(objIter))
+	if (objs != NULL)
 	{
-		curr = objsToAdd->next(objIter);
-		objs->addObject(curr);
+		ObjectIterator *objIter = objsToAdd->getIterator();
+		BaseObject *curr;
+		while(objsToAdd->hasNext(objIter))
+		{
+			curr = objsToAdd->next(objIter);
+			objs->addObject(curr);
+		}
+		objsToAdd->destroyIterator(objIter);
 	}
 	objsToAdd->clear();
-	objsToAdd->destroyIterator(objIter);
 }
 void GameProperties::addObject(BaseObject *obj)
 {
@@ -125,4 +134,35 @@ Pos2 *GameProperties::setTileSize(float x, float y)
 	tileSize->setX(x);
 	tileSize->setY(y);
 	return tileSize;
+}
+void GameProperties::freeze()
+{
+	frozen = 1;
+}
+void GameProperties::unfreeze()
+{
+	frozen = 0;
+}
+int GameProperties::isFrozen()
+{
+	return frozen;
+}
+void GameProperties::endLevel()
+{
+	// you gotta get rid of all the stuff gameProps is holding on to
+	// currently it's just the active spawn, but eventually it might be
+	// other things.
+	// maybe gameProps should never hold on to things, but just actively
+	// search and find things with TYP_*
+	activeSpawn = NULL;
+	
+	ending_level = 1;
+}
+void GameProperties::unEndLevel()
+{
+	ending_level = 0;
+}
+int GameProperties::isEndingLevel()
+{
+	return ending_level;
 }

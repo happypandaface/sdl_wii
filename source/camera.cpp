@@ -15,7 +15,19 @@ Camera::Camera(GameProperties *gp, float d)
 }
 Camera::~Camera()
 {
-	
+}
+void Camera::clear()
+{
+	camPos = new Pos2();
+	for (int i = 0; i < MAX_FOLLOW; ++i)
+	{
+		following[i] = NULL;
+	}
+	for (int i = 0; i < MAX_DRAG; ++i)
+	{
+		dragging[i] = NULL;
+		dragAmnts[i] = 0;
+	}
 }
 void Camera::addFollow(BaseObject *bObj)
 {

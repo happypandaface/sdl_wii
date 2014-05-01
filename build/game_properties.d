@@ -33,6 +33,7 @@ game_properties.o: d:/work/sdl_wii/source/game_properties.cpp \
  d:/devkitPro/libogc/include/SDL/SDL_version.h \
  d:/work/sdl_wii/source/include/controller.h \
  d:/work/sdl_wii/source/include/res_loader.h \
+ d:/work/sdl_wii/source/include/image_effect.h \
  d:/work/sdl_wii/source/include/audio.h \
  d:/work/sdl_wii/source/include/animation.h \
  d:/work/sdl_wii/source/include/object_holder.h \
@@ -107,6 +108,8 @@ d:/devkitPro/libogc/include/SDL/SDL_version.h:
 d:/work/sdl_wii/source/include/controller.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
+
+d:/work/sdl_wii/source/include/image_effect.h:
 
 d:/work/sdl_wii/source/include/audio.h:
 

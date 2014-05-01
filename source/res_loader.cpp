@@ -14,6 +14,7 @@
 #include "images/wallGun.h"
 #include "images/playerIndicator.h"
 #include "images/blueLazer.h"
+#include "images/finishLevel.h"
 
 class ResourceLoader::ResImage
 {
@@ -132,6 +133,9 @@ float ResourceLoader::load()
 	SDL_RWops * blueLazerFile = SDL_RWFromMem(blueLazerData,blueLazerSize);
 	SDL_Surface *blueLazerSurf = IMG_LoadPNG_RW(blueLazerFile);
 	
+	SDL_RWops * finishLevelFile = SDL_RWFromMem(finishLevelData,finishLevelSize);
+	SDL_Surface *finishLevelSurf = IMG_LoadPNG_RW(finishLevelFile);
+	
 	images[get_arr_pos(IMG_TEST)] = new ResourceLoader::ResImage(
 		IMG_TEST, flowerSurf,
 		0, 0, 64, 64);
@@ -239,21 +243,58 @@ float ResourceLoader::load()
 		IMG_COOL_GUY_STAND_LEFT, coolGuySurf,
 		18, 255, 37, 75);
 		
+	images[get_arr_pos(IMG_FINISH_LEVEL_1)] = new ResourceLoader::ResImage(
+		IMG_FINISH_LEVEL_1, finishLevelSurf,
+		0, 0, 128, 128);
+	images[get_arr_pos(IMG_FINISH_LEVEL_2)] = new ResourceLoader::ResImage(
+		IMG_FINISH_LEVEL_2, finishLevelSurf,
+		128*1, 0, 128, 128);
+	images[get_arr_pos(IMG_FINISH_LEVEL_3)] = new ResourceLoader::ResImage(
+		IMG_FINISH_LEVEL_3, finishLevelSurf,
+		128*2, 0, 128, 128);
+	images[get_arr_pos(IMG_FINISH_LEVEL_4)] = new ResourceLoader::ResImage(
+		IMG_FINISH_LEVEL_4, finishLevelSurf,
+		128*3, 0, 128, 128);
+	images[get_arr_pos(IMG_FINISH_LEVEL_5)] = new ResourceLoader::ResImage(
+		IMG_FINISH_LEVEL_5, finishLevelSurf,
+		128*4, 0, 128, 128);
+	images[get_arr_pos(IMG_FINISH_LEVEL_6)] = new ResourceLoader::ResImage(
+		IMG_FINISH_LEVEL_6, finishLevelSurf,
+		128*5, 0, 128, 128);
+	images[get_arr_pos(IMG_FINISH_LEVEL_7)] = new ResourceLoader::ResImage(
+		IMG_FINISH_LEVEL_7, finishLevelSurf,
+		128*6, 0, 128, 128);
+	images[get_arr_pos(IMG_FINISH_LEVEL_8)] = new ResourceLoader::ResImage(
+		IMG_FINISH_LEVEL_8, finishLevelSurf,
+		128*7, 0, 128, 128);
+		
 	return 1.0f;
 }
 
 void ResourceLoader::draw_image(int img_type, SDL_Surface *screen, float x, float y)
+{
+	draw_image(img_type, screen, x, y, NULL, 0);
+}
+void ResourceLoader::draw_image(int img_type, SDL_Surface *screen, float x, float y, ImageEffect **effects, int effects_size)
 {
 	ResourceLoader::ResImage *resImg = get_image(img_type);
 	dst_rect->x = x;
 	dst_rect->y = y;
 	dst_rect->w = resImg->getSrcRect()->w;
 	dst_rect->h = resImg->getSrcRect()->h;
+	SDL_Rect src_rect;
+	src_rect.x = resImg->getSrcRect()->x;
+	src_rect.y = resImg->getSrcRect()->y;
+	src_rect.w = resImg->getSrcRect()->w;
+	src_rect.h = resImg->getSrcRect()->h;
+	if (effects != NULL && effects_size != 0)
+		for (int i = 0; i < effects_size; ++i)
+			effects[i]->apply(dst_rect, &src_rect);
 	/*
 	SDL_BlitSurface( resLoader->get_image(IMG_TEST), src_rect, screen, dst_rect );*/
 	SDL_BlitSurface(
 		resImg->getImgFile(), 
-		resImg->getSrcRect(), 
+		&src_rect, 
 		screen, 
 		dst_rect);
 }

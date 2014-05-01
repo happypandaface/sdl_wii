@@ -32,6 +32,7 @@ spike_ball.o: d:/work/sdl_wii/source/spike_ball.cpp \
  d:/work/sdl_wii/source/include/pos2.h \
  d:/work/sdl_wii/source/include/controller.h \
  d:/work/sdl_wii/source/include/res_loader.h \
+ d:/work/sdl_wii/source/include/image_effect.h \
  d:/work/sdl_wii/source/include/game_properties.h \
  d:/work/sdl_wii/source/include/camera.h \
  d:/work/sdl_wii/source/include/object_holder.h \
@@ -105,6 +106,8 @@ d:/work/sdl_wii/source/include/pos2.h:
 d:/work/sdl_wii/source/include/controller.h:
 
 d:/work/sdl_wii/source/include/res_loader.h:
+
+d:/work/sdl_wii/source/include/image_effect.h:
 
 d:/work/sdl_wii/source/include/game_properties.h:
 

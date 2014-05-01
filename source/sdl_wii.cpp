@@ -33,6 +33,7 @@
 #include "stone_emblem.h"
 #include "wall_gun.h"
 #include "blue_lazer.h"
+#include "finish_level.h"
  
 // screen surface, the place where everything will get print onto
 SDL_Surface *screen = NULL;
@@ -211,11 +212,29 @@ void makeLevel(GameProperties *gameProps, ObjectHolder *objHolder)
 		objHolder->addObject(wg);
 	}
 	{
-		StoneEmblem *spawn = new StoneEmblem();
-		spawn->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-		spawn->setPos(puzz2StartX+4, 3);
-		objHolder->addObject(spawn);
+		FinishLevel *fl = new FinishLevel();
+		fl->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		fl->setPos(puzz2StartX+5, 4);
+		objHolder->addObject(fl);
 	}
+}
+void startLevel(GameProperties *gameProps, ObjectHolder *objHolder)
+{
+	// now that we're done adding all the walls, we gotta calculate all the wall's neighbors
+	//  to mitigate the foul glitch only known as... "the you sometimes get tripped up when
+	//  going over floors glitch" also it makes the tiles look nicer
+	ObjectIterator *objIter = objHolder->getIterator();
+	BaseObject *curr;
+	while(objHolder->hasNext(objIter))
+	{
+		curr = objHolder->next(objIter);
+		Wall *wll = dynamic_cast<Wall*>(curr);
+		if (wll)
+		{
+			wll->calcNeighbors(objHolder, gameProps);
+		}
+	}
+	objHolder->destroyIterator(objIter);
 }
  
 int main(int argc, char** argv)
@@ -249,22 +268,12 @@ int main(int argc, char** argv)
 	Gravity *grav = new Gravity();
 	grav->setStrength(20);
 	
+	delete objHolder;
+	objHolder = new ObjectHolder();
+	
 	makeLevel(gameProps, objHolder);
 	
-	// now that we're done adding all the walls, we gotta calculate all the wall's neighbors
-	//  to mitigate the foul glitch only known as... "the you sometimes get tripped up when
-	//  going over floors glitch" also it makes the tiles look nicer
-	objHolder->resetIterator(objIter);
-	BaseObject *curr;
-	while(objHolder->hasNext(objIter))
-	{
-		curr = objHolder->next(objIter);
-		Wall *wll = dynamic_cast<Wall*>(curr);
-		if (wll)
-		{
-			wll->calcNeighbors(objHolder, gameProps);
-		}
-	}
+	startLevel(gameProps, objHolder);
  
 	// this is the endless while loop until done = true
 	while (!done)
@@ -280,63 +289,84 @@ int main(int argc, char** argv)
 		if (ftime > .1)
 			ftime = .1;
 		
-		if (gameProps->getPlayersLeft() == 0)
+		if (gameProps->isEndingLevel())
 		{
-			Pos2 *spawnPos = gameProps->getSpawnPos();
-			if (spawnPos)
+			if (contrlr->key_down(0, CTRL_2))
 			{
-				Player *p1 = new Player();
-				p1->setController(0);
-				p1->setPos(spawnPos->getX(), spawnPos->getY());
-				p1->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-				objHolder->addObject(p1);
+				objHolder->destroyObjs();
 				
-				Player *p2 = new Player();
-				p2->setController(1);
-				p2->setPos(spawnPos->getX(), spawnPos->getY());
-				p2->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-				objHolder->addObject(p2);
+				gameProps->setPlayers(0);
+				gameProps->getCam()->clear();
+				makeLevel(gameProps, objHolder);
+				gameProps->unfreeze();
+				startLevel(gameProps, objHolder);
 				
-				gameProps->addPlayer();
-				gameProps->addPlayer();
-				
-				gameProps->getCam()->addFollow(p1);
-				gameProps->getCam()->addFollow(p2);
+				gameProps->unEndLevel();
+				gameProps->addObjsTo(NULL);
 			}
-		}
-		
-		grav->update(objHolder, ftime);
-		
-		objHolder->resetIterator(objIter);
-		BaseObject *curr;
-		while(objHolder->hasNext(objIter))
+		}else
 		{
-			curr = objHolder->next(objIter);
-			curr->update(objHolder, gameProps, audioPlayer, contrlr, ftime);
-			curr->draw(gameProps->getResLoader(), gameProps, screen);
-		}
-		objHolder->resetIterator(objIter);// restart to remove objs
-		curr = objHolder->next(objIter); // this has to be before the while loop /
-			// for the while loop to work and remove correctly
-		while(true)
-		{
-			BaseObject *objToRemove = NULL;
-			if (curr->checkType(TYP_DEAD))
+			if (gameProps->getPlayersLeft() == 0)
 			{
-				curr->doDeath(objHolder, gameProps, audioPlayer, contrlr, ftime);
-				objToRemove = curr;
+				Pos2 *spawnPos = gameProps->getSpawnPos();
+				if (spawnPos)
+				{
+					Player *p1 = new Player();
+					p1->setController(0);
+					p1->setPos(spawnPos->getX(), spawnPos->getY());
+					p1->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+					objHolder->addObject(p1);
+					
+					Player *p2 = new Player();
+					p2->setController(1);
+					p2->setPos(spawnPos->getX(), spawnPos->getY());
+					p2->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+					objHolder->addObject(p2);
+					
+					gameProps->addPlayer();
+					gameProps->addPlayer();
+					
+					gameProps->getCam()->addFollow(p1);
+					gameProps->getCam()->addFollow(p2);
+				}
 			}
-			if (objHolder->hasNext(objIter))
+			
+			grav->update(objHolder, ftime);
+			
+			objHolder->resetIterator(objIter);
+			BaseObject *curr;
+			while(objHolder->hasNext(objIter))
+			{
 				curr = objHolder->next(objIter);
-			else
-				curr = NULL;
-			if (objToRemove != NULL)
-				objHolder->removeObject(objToRemove, 1);
-			if (curr == NULL)
-				break;
+				if (!gameProps->isFrozen() || curr->checkType(TYP_UNFRZN))
+					curr->update(objHolder, gameProps, audioPlayer, contrlr, ftime);
+				curr->draw(gameProps->getResLoader(), gameProps, screen);
+			}
+			
+			objHolder->resetIterator(objIter);// restart to remove objs
+			curr = objHolder->next(objIter); // this has to be before the while loop /
+				// for the while loop to work and remove correctly
+			while(curr != NULL)
+			{
+				BaseObject *objToRemove = NULL;
+				if (curr->checkType(TYP_DEAD))
+				{
+					curr->doDeath(objHolder, gameProps, audioPlayer, contrlr, ftime);
+					objToRemove = curr;
+				}
+				if (objHolder->hasNext(objIter))
+					curr = objHolder->next(objIter);
+				else
+					curr = NULL;
+				if (objToRemove != NULL)
+					objHolder->removeObject(objToRemove, 1);
+				if (curr == NULL)
+					break;
+			}
+			gameProps->addObjsTo(objHolder);
+			
+			gameProps->getCam()->update(gameProps, ftime);
 		}
-		gameProps->addObjsTo(objHolder);
-		gameProps->getCam()->update(gameProps, ftime);
 		
 		SDL_Flip(screen);
 	}

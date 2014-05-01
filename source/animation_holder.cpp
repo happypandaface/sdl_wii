@@ -1,4 +1,5 @@
 #include "animation_holder.h"
+#include "imgfx_cut.h"
 
 AnimationHolder::AnimationHolder()
 {
@@ -175,6 +176,46 @@ void AnimationHolder::load(ResourceLoader *res_loader)
 		anim->addFrame(IMG_COOL_GUY_STAND_RIGHT, 0, subY, 1);
 		anim->setBaseSpeed(2.5);
 		anims[get_arr_pos(ANIM_COOL_GUY_STAND_RIGHT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(1);
+		AnimationFrame *aFrame = anim->getNewframe();
+		aFrame->setNumImages(1);
+		aFrame->addImage(IMG_COOL_GUY_STAND_LEFT, -5, -5+subY);
+		aFrame->setTime(1);
+		aFrame->setEffects(1);
+		ImgFxCut *imgCut = new ImgFxCut();
+		aFrame->addEffect(imgCut);
+		anim->setBaseSpeed(1);
+		anim->setMaxLoops(1);
+		anims[get_arr_pos(ANIM_PLAYER_CUT_UP_LEFT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(1);
+		{
+			AnimationFrame *aFrame = anim->getNewframe();
+			aFrame->setNumImages(1);
+			aFrame->addImage(IMG_COOL_GUY_STAND_RIGHT, 0, subY);
+			aFrame->setTime(1);
+			aFrame->setEffects(1);
+			ImgFxCut *imgCut = new ImgFxCut();
+			aFrame->addEffect(imgCut);
+		}
+		anim->compileFrames();
+		anim->setBaseSpeed(1);
+		anim->setMaxLoops(1);
+		anims[get_arr_pos(ANIM_PLAYER_CUT_UP_RIGHT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(8);
+		anim->addFrame(IMG_FINISH_LEVEL_1, 0, 0, 1);
+		anim->addFrame(IMG_FINISH_LEVEL_3, 0, 0, 1);
+		anim->addFrame(IMG_FINISH_LEVEL_4, 0, 0, 1);
+		anim->addFrame(IMG_FINISH_LEVEL_5, 0, 0, 1);
+		anim->addFrame(IMG_FINISH_LEVEL_6, 0, 0, 1);
+		anim->addFrame(IMG_FINISH_LEVEL_7, 0, 0, 1);
+		anim->setBaseSpeed(.5);
+		anims[get_arr_pos(ANIM_FINISH_LEVEL)] = anim;
 	}
 }
 int AnimationHolder::get_arr_pos(int anim_type)
