@@ -10,10 +10,19 @@ int SpikeBall::update(ObjectHolder *objHolder, GameProperties *gameProps,  Audio
 		curr = objHolder->next(objIter);
 		if (curr->checkType(TYP_CLIPS))
 		{
+			/*
 			Pos2 *dst = pos->intersection(
 				size, 
 				curr->getPosition(), 
 				curr->getSize());
+			*/
+			Pos2 *dst = pos->circRectIntersect(
+				size->getX()/2,// this is the middle of the circle
+				size->getY()/2,// this is the middle of the circle
+				.3,// this is the radius
+				curr->getPosition(), 
+				curr->getSize());
+			
 			if (dst != NULL)
 			{
 				curr->die(this);

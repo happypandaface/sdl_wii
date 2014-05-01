@@ -36,7 +36,7 @@ void AnimationHolder::load(ResourceLoader *res_loader)
 	spikes->addFrame(IMG_SPIKE_BALL4, 0, 0, .4);
 	spikes->addFrame(IMG_SPIKE_BALL3, 0, 0, .2);
 	spikes->addFrame(IMG_SPIKE_BALL2, 0, 0, .2);
-	spikes->setBaseSpeed(1.2);
+	spikes->setBaseSpeed(2);
 	anims[get_arr_pos(ANIM_SPIKE_BALL)] = spikes;
 	
 	Animation *a2 = new Animation(2);
@@ -104,6 +104,78 @@ void AnimationHolder::load(ResourceLoader *res_loader)
 	dirtWall_W_->setBaseSpeed(0);
 	anims[get_arr_pos(ANIM_DIRT_WALL_W)] = dirtWall_W_;
 	
+	{
+		Animation *anim = new Animation(1);
+		anim->addFrame(IMG_PLR_INDCTR_1, 0, 0, 1);
+		anim->setBaseSpeed(0);
+		anims[get_arr_pos(ANIM_PLR_INDCTR_1)] = anim;
+	}
+	
+	{
+		Animation *anim = new Animation(1);
+		anim->addFrame(IMG_PLR_INDCTR_2, 0, 0, 1);
+		anim->setBaseSpeed(0);
+		anims[get_arr_pos(ANIM_PLR_INDCTR_2)] = anim;
+	}
+	
+	{
+		Animation *anim = new Animation(1);
+		anim->addFrame(IMG_PLR_INDCTR_3, 0, 0, 1);
+		anim->setBaseSpeed(0);
+		anims[get_arr_pos(ANIM_PLR_INDCTR_3)] = anim;
+	}
+	
+	{
+		Animation *anim = new Animation(1);
+		anim->addFrame(IMG_PLR_INDCTR_4, 0, 0, 1);
+		anim->setBaseSpeed(0);
+		anims[get_arr_pos(ANIM_PLR_INDCTR_4)] = anim;
+	}
+	
+	{
+		Animation *anim = new Animation(3);
+		anim->addFrame(IMG_BLUE_LAZER_1, 0, 0, 1);
+		anim->addFrame(IMG_BLUE_LAZER_2, 0, 0, 1);
+		anim->addFrame(IMG_BLUE_LAZER_3, 0, 0, 1);
+		anim->setBaseSpeed(5);
+		anims[get_arr_pos(ANIM_BLUE_LAZER)] = anim;
+	}
+	{
+		Animation *anim = new Animation(3);
+		anim->addFrame(IMG_RED_LAZER_1, 0, 0, 1);
+		anim->addFrame(IMG_RED_LAZER_2, 0, 0, 1);
+		anim->addFrame(IMG_RED_LAZER_3, 0, 0, 1);
+		anim->setBaseSpeed(5);
+		anims[get_arr_pos(ANIM_RED_LAZER)] = anim;
+	}
+	
+	float subY = -10;
+	{
+		Animation *anim = new Animation(2);
+		anim->addFrame(IMG_COOL_GUY_WALK_RIGHT_1, 0, subY, 1);
+		anim->addFrame(IMG_COOL_GUY_WALK_RIGHT_2, 0, subY, 1);
+		anim->setBaseSpeed(2.5);
+		anims[get_arr_pos(ANIM_COOL_GUY_WALK_RIGHT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(2);
+		anim->addFrame(IMG_COOL_GUY_WALK_LEFT_1, 0, subY, 1);
+		anim->addFrame(IMG_COOL_GUY_WALK_LEFT_2, -5, subY, 1);
+		anim->setBaseSpeed(2.5);
+		anims[get_arr_pos(ANIM_COOL_GUY_WALK_LEFT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(1);
+		anim->addFrame(IMG_COOL_GUY_STAND_LEFT, -5, -5+subY, 1);
+		anim->setBaseSpeed(2.5);
+		anims[get_arr_pos(ANIM_COOL_GUY_STAND_LEFT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(1);
+		anim->addFrame(IMG_COOL_GUY_STAND_RIGHT, 0, subY, 1);
+		anim->setBaseSpeed(2.5);
+		anims[get_arr_pos(ANIM_COOL_GUY_STAND_RIGHT)] = anim;
+	}
 }
 int AnimationHolder::get_arr_pos(int anim_type)
 {

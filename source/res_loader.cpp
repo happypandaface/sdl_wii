@@ -12,6 +12,8 @@
 #include "images/giblet.h"
 #include "images/stoneEmblemSheet.h"
 #include "images/wallGun.h"
+#include "images/playerIndicator.h"
+#include "images/blueLazer.h"
 
 class ResourceLoader::ResImage
 {
@@ -124,6 +126,12 @@ float ResourceLoader::load()
 	SDL_RWops * wallGunFile = SDL_RWFromMem(wallGunData,wallGunSize);
 	SDL_Surface *wallGunSurf = IMG_LoadPNG_RW(wallGunFile);
 	
+	SDL_RWops * plrIndctrFile = SDL_RWFromMem(playerIndicatorData,playerIndicatorSize);
+	SDL_Surface *plrIndctrSurf = IMG_LoadPNG_RW(plrIndctrFile);
+	
+	SDL_RWops * blueLazerFile = SDL_RWFromMem(blueLazerData,blueLazerSize);
+	SDL_Surface *blueLazerSurf = IMG_LoadPNG_RW(blueLazerFile);
+	
 	images[get_arr_pos(IMG_TEST)] = new ResourceLoader::ResImage(
 		IMG_TEST, flowerSurf,
 		0, 0, 64, 64);
@@ -181,7 +189,56 @@ float ResourceLoader::load()
 	images[get_arr_pos(IMG_WALL_GUN)] = new ResourceLoader::ResImage(
 		IMG_WALL_GUN, wallGunSurf,
 		0, 0, 32, 32);
+	images[get_arr_pos(IMG_PLR_INDCTR_1)] = new ResourceLoader::ResImage(
+		IMG_PLR_INDCTR_1, plrIndctrSurf,
+		0, 0, 32, 16);
+	images[get_arr_pos(IMG_PLR_INDCTR_2)] = new ResourceLoader::ResImage(
+		IMG_PLR_INDCTR_2, plrIndctrSurf,
+		0, 16, 32, 16);
+	images[get_arr_pos(IMG_PLR_INDCTR_3)] = new ResourceLoader::ResImage(
+		IMG_PLR_INDCTR_3, plrIndctrSurf,
+		0, 32, 32, 16);
+	images[get_arr_pos(IMG_PLR_INDCTR_4)] = new ResourceLoader::ResImage(
+		IMG_PLR_INDCTR_4, plrIndctrSurf,
+		0, 16*3, 32, 16);
+	images[get_arr_pos(IMG_BLUE_LAZER_1)] = new ResourceLoader::ResImage(
+		IMG_BLUE_LAZER_1, blueLazerSurf,
+		0, 16*0, 32, 16);
+	images[get_arr_pos(IMG_BLUE_LAZER_2)] = new ResourceLoader::ResImage(
+		IMG_BLUE_LAZER_2, blueLazerSurf,
+		0, 16*1, 32, 16);
+	images[get_arr_pos(IMG_BLUE_LAZER_3)] = new ResourceLoader::ResImage(
+		IMG_BLUE_LAZER_3, blueLazerSurf,
+		0, 16*2, 32, 16);
+	images[get_arr_pos(IMG_RED_LAZER_1)] = new ResourceLoader::ResImage(
+		IMG_RED_LAZER_1, blueLazerSurf,
+		32, 16*0, 32, 16);
+	images[get_arr_pos(IMG_RED_LAZER_2)] = new ResourceLoader::ResImage(
+		IMG_RED_LAZER_2, blueLazerSurf,
+		32, 16*1, 32, 16);
+	images[get_arr_pos(IMG_RED_LAZER_3)] = new ResourceLoader::ResImage(
+		IMG_RED_LAZER_3, blueLazerSurf,
+		32, 16*2, 32, 16);
 	
+	images[get_arr_pos(IMG_COOL_GUY_WALK_RIGHT_1)] = new ResourceLoader::ResImage(
+		IMG_COOL_GUY_WALK_RIGHT_1, coolGuySurf,
+		61, 173, 32, 73);
+	images[get_arr_pos(IMG_COOL_GUY_WALK_RIGHT_2)] = new ResourceLoader::ResImage(
+		IMG_COOL_GUY_WALK_RIGHT_2, coolGuySurf,
+		138, 173, 35, 75);
+	images[get_arr_pos(IMG_COOL_GUY_WALK_LEFT_1)] = new ResourceLoader::ResImage(
+		IMG_COOL_GUY_WALK_LEFT_1, coolGuySurf,
+		143, 256, 31, 72);
+	images[get_arr_pos(IMG_COOL_GUY_WALK_LEFT_2)] = new ResourceLoader::ResImage(
+		IMG_COOL_GUY_WALK_LEFT_2, coolGuySurf,
+		61, 255, 35, 74);
+	images[get_arr_pos(IMG_COOL_GUY_STAND_RIGHT)] = new ResourceLoader::ResImage(
+		IMG_COOL_GUY_STAND_RIGHT, coolGuySurf,
+		26, 173, 27, 73);
+	images[get_arr_pos(IMG_COOL_GUY_STAND_LEFT)] = new ResourceLoader::ResImage(
+		IMG_COOL_GUY_STAND_LEFT, coolGuySurf,
+		18, 255, 37, 75);
+		
 	return 1.0f;
 }
 

@@ -7,12 +7,13 @@
 #include <wiiuse/wpad.h> 
 #endif
 
-#define CTRL_BIT_LEFT 1<<1
-#define CTRL_BIT_RIGHT 1<<2
-#define CTRL_BIT_QUIT 1<<3
-#define CTRL_BIT_UP 1<<4
-#define CTRL_BIT_DOWN 1<<5
-#define CTRL_BIT_2 1<<6
+#define CTRL_BIT_LEFT 0b00000001
+#define CTRL_BIT_RIGHT 0b00000010
+#define CTRL_BIT_QUIT 0b00000100
+#define CTRL_BIT_UP 0b00001000
+#define CTRL_BIT_DOWN 0b00010000
+#define CTRL_BIT_2 0b00100000
+#define CTRL_BIT_A 0b01000000
 
 Controller::Controller()
 {
@@ -49,46 +50,61 @@ void Controller::update()
 		// SDL_Flip refreshes the screen so it will show the updated screen
 	#ifdef WINDOWS_BUILD
 		while( SDL_PollEvent( event ) ){
-			switch( event->type ){
-				case SDL_KEYDOWN:
-					if (event->key.keysym.sym == SDLK_l)
-						keysDown[0] |= CTRL_BIT_RIGHT;
-					else if (event->key.keysym.sym == SDLK_j)
-						keysDown[0] |= CTRL_BIT_LEFT;
-					else if (event->key.keysym.sym == SDLK_i)
-						keysDown[0] |= CTRL_BIT_UP;
-					else if (event->key.keysym.sym == SDLK_k)
-						keysDown[0] |= CTRL_BIT_DOWN;
-					else if (event->key.keysym.sym == SDLK_d)
-						keysDown[1] |= CTRL_BIT_RIGHT;
-					else if (event->key.keysym.sym == SDLK_a)
-						keysDown[1] |= CTRL_BIT_LEFT;
-					else if (event->key.keysym.sym == SDLK_w)
-						keysDown[1] |= CTRL_BIT_UP;
-					else if (event->key.keysym.sym == SDLK_s)
-						keysDown[1] |= CTRL_BIT_DOWN;
-					break;
-				case SDL_KEYUP:
-					if (event->key.keysym.sym == SDLK_l)
-						keysDown[0] &= ~CTRL_BIT_RIGHT;
-					else if (event->key.keysym.sym == SDLK_j)
-						keysDown[0] &= ~CTRL_BIT_LEFT;
-					else if (event->key.keysym.sym == SDLK_i)
-						keysDown[0] &= ~CTRL_BIT_UP;
-					else if (event->key.keysym.sym == SDLK_k)
-						keysDown[0] &= ~CTRL_BIT_DOWN;
-					else if (event->key.keysym.sym == SDLK_d)
-						keysDown[1] &= ~CTRL_BIT_RIGHT;
-					else if (event->key.keysym.sym == SDLK_a)
-						keysDown[1] &= ~CTRL_BIT_LEFT;
-					else if (event->key.keysym.sym == SDLK_w)
-						keysDown[1] &= ~CTRL_BIT_UP;
-					else if (event->key.keysym.sym == SDLK_s)
-						keysDown[1] &= ~CTRL_BIT_DOWN;
-					break;
-				case SDL_QUIT:
-					keysDown[0] |= CTRL_BIT_QUIT;
-					break;
+			if (event->type == SDL_KEYDOWN)
+			{
+				if (event->key.keysym.sym == SDLK_l)
+					keysDown[0] |= CTRL_BIT_RIGHT;
+				else if (event->key.keysym.sym == SDLK_j)
+					keysDown[0] |= CTRL_BIT_LEFT;
+				else if (event->key.keysym.sym == SDLK_i)
+					keysDown[0] |= CTRL_BIT_UP;
+				else if (event->key.keysym.sym == SDLK_k)
+					keysDown[0] |= CTRL_BIT_DOWN;
+				else if (event->key.keysym.sym == SDLK_h)
+					keysDown[0] |= CTRL_BIT_2;
+				else if (event->key.keysym.sym == SDLK_n)
+					keysDown[0] |= CTRL_BIT_A;
+				else if (event->key.keysym.sym == SDLK_d)
+					keysDown[1] |= CTRL_BIT_RIGHT;
+				else if (event->key.keysym.sym == SDLK_a)
+					keysDown[1] |= CTRL_BIT_LEFT;
+				else if (event->key.keysym.sym == SDLK_w)
+					keysDown[1] |= CTRL_BIT_UP;
+				else if (event->key.keysym.sym == SDLK_s)
+					keysDown[1] |= CTRL_BIT_DOWN;
+				else if (event->key.keysym.sym == SDLK_f)
+					keysDown[1] |= CTRL_BIT_2;
+				else if (event->key.keysym.sym == SDLK_c)
+					keysDown[1] |= CTRL_BIT_A;
+			}else if (event->type == SDL_KEYUP)
+			{
+				if (event->key.keysym.sym == SDLK_l)
+					keysDown[0] &= ~CTRL_BIT_RIGHT;
+				else if (event->key.keysym.sym == SDLK_j)
+					keysDown[0] &= ~CTRL_BIT_LEFT;
+				else if (event->key.keysym.sym == SDLK_i)
+					keysDown[0] &= ~CTRL_BIT_UP;
+				else if (event->key.keysym.sym == SDLK_k)
+					keysDown[0] &= ~CTRL_BIT_DOWN;
+				else if (event->key.keysym.sym == SDLK_h)
+					keysDown[0] &= ~CTRL_BIT_2;
+				else if (event->key.keysym.sym == SDLK_n)
+					keysDown[0] &= ~CTRL_BIT_A;
+				else if (event->key.keysym.sym == SDLK_d)
+					keysDown[1] &= ~CTRL_BIT_RIGHT;
+				else if (event->key.keysym.sym == SDLK_a)
+					keysDown[1] &= ~CTRL_BIT_LEFT;
+				else if (event->key.keysym.sym == SDLK_w)
+					keysDown[1] &= ~CTRL_BIT_UP;
+				else if (event->key.keysym.sym == SDLK_s)
+					keysDown[1] &= ~CTRL_BIT_DOWN;
+				else if (event->key.keysym.sym == SDLK_f)
+					keysDown[1] &= ~CTRL_BIT_2;
+				else if (event->key.keysym.sym == SDLK_c)
+					keysDown[1] &= ~CTRL_BIT_A;
+			}else if (event->type == SDL_QUIT)
+			{
+				keysDown[0] |= CTRL_BIT_QUIT;
 			}
 		}
 	#else
@@ -107,6 +123,8 @@ void Controller::update()
 				keysDown[i] |= CTRL_BIT_DOWN;
 			if(held & WPAD_BUTTON_2)
 				keysDown[i] |= CTRL_BIT_2;
+			if(held & WPAD_BUTTON_A)
+				keysDown[i] |= CTRL_BIT_A;
 		}
 	#endif
 }
@@ -124,6 +142,8 @@ int Controller::key_down(int controller, int key)
 	if (keysDown[controller] & CTRL_BIT_QUIT && key == CTRL_QUIT)
 		return 1;
 	if (keysDown[controller] & CTRL_BIT_2 && key == CTRL_2)
+		return 1;
+	if (keysDown[controller] & CTRL_BIT_A && key == CTRL_A)
 		return 1;
 	return 0;
 }

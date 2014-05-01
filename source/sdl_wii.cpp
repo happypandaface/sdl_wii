@@ -3,6 +3,9 @@
 #include <iostream>
 #include <time.h>
 #include <math.h>
+#ifdef WINDOWS_BUILD
+	#include <windows.h>
+#endif
 //#include <gccore.h>
 //#include <wiiuse/wpad.h> 
 
@@ -29,6 +32,7 @@
 #include "background.h"
 #include "stone_emblem.h"
 #include "wall_gun.h"
+#include "blue_lazer.h"
  
 // screen surface, the place where everything will get print onto
 SDL_Surface *screen = NULL;
@@ -79,8 +83,143 @@ void apply_surface ( int x, int y, SDL_Surface* source, SDL_Surface* destination
 	 // blit the surface
 	 SDL_BlitSurface( source, NULL, destination, &offset );
 }
+
+void makeLevel(GameProperties *gameProps, ObjectHolder *objHolder)
+{
+	Background *caveBg = new Background();
+	caveBg->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	caveBg->setLayer(-1);
+	caveBg->setPos(-1, -1);
+	gameProps->getCam()->addDrag(caveBg, 0.91);
+	objHolder->addObject(caveBg);
+	
+	SpikeBall *sb = new SpikeBall();
+	sb->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	sb->setPos(5, 5);
+	objHolder->addObject(sb);
+	
+	SpikeBall *sb2 = new SpikeBall();
+	sb2->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	sb2->setNumPatrol(2);
+	sb2->addPatrol(10, 5, 1);
+	sb2->addPatrol(10, 3, 1);
+	sb2->setPos(10, 3);
+	objHolder->addObject(sb2);
+	
+	SpikeBall *sb3 = new SpikeBall();
+	sb3->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	sb3->setNumPatrol(2);
+	sb3->addPatrol(12, 3, 1);
+	sb3->addPatrol(12, 5, 1);
+	sb3->setPos(12, 5);
+	objHolder->addObject(sb3);
+	
+	StoneEmblem *firstSpawn = new StoneEmblem();
+	firstSpawn->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	firstSpawn->setPos(1, 3);
+	objHolder->addObject(firstSpawn);
+	
+	StoneEmblem *spawn2 = new StoneEmblem();
+	spawn2->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+	spawn2->setPos(7, 3);
+	objHolder->addObject(spawn2);
+	
+	{
+		StoneEmblem *spawn = new StoneEmblem();
+		spawn->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		spawn->setPos(15, 3);
+		objHolder->addObject(spawn);
+	}
+	
+	gameProps->setActiveSpawn(firstSpawn);
+	
+	for (int i = 0; i < 30; ++i)
+	{
+		Wall *w = new Wall();
+		w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		w->setPos(i, 6);
+		objHolder->addObject(w);
+	}
+	
+	float puzz1StartX = 16;
+	for (int i = 0; i < 1; ++i)
+	{
+		{
+			Wall *w = new Wall();
+			w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+			w->setPos(puzz1StartX+i, 5);
+			objHolder->addObject(w);
+		}
+	}
+	for (int i = 0; i < 4; ++i)
+	{
+		Wall *w = new Wall();
+		w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		w->setPos(puzz1StartX+3, 4-i);
+		objHolder->addObject(w);
+	}
+	{
+		WallGun *wg = new WallGun();
+		wg->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		wg->setPos(puzz1StartX+2.5, 4.25);
+		objHolder->addObject(wg);
+	}
+	{
+		StoneEmblem *spawn = new StoneEmblem();
+		spawn->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		spawn->setPos(puzz1StartX+4, 3);
+		objHolder->addObject(spawn);
+	}
+	
+	float puzz2StartX = 24;
+	for (int i = 0; i < 2; ++i)
+	{
+		{
+			Wall *w = new Wall();
+			w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+			w->setPos(puzz2StartX+i, 5);
+			objHolder->addObject(w);
+		}
+	}
+	for (int i = 0; i < 2; ++i)
+	{
+		{
+			Wall *w = new Wall();
+			w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+			w->setPos(puzz2StartX+i, 2);
+			objHolder->addObject(w);
+		}
+	}
+	for (int i = 0; i < 4; ++i)
+	{
+		Wall *w = new Wall();
+		w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		w->setPos(puzz2StartX+3, 4-i);
+		objHolder->addObject(w);
+	}
+	
+	{
+		WallGun *wg = new WallGun();
+		wg->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		wg->setPos(puzz2StartX+2.5, 3.25);
+		objHolder->addObject(wg);
+	}
+	{
+		WallGun *wg = new WallGun();
+		wg->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		wg->setPos(puzz2StartX+2.5, 4.25);
+		objHolder->addObject(wg);
+	}
+	{
+		StoneEmblem *spawn = new StoneEmblem();
+		spawn->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		spawn->setPos(puzz2StartX+4, 3);
+		objHolder->addObject(spawn);
+	}
+}
  
-int main(int argc, char** argv){
+int main(int argc, char** argv)
+{
 	srand(time(NULL));
 	// main function. Always starts first
  
@@ -110,72 +249,7 @@ int main(int argc, char** argv){
 	Gravity *grav = new Gravity();
 	grav->setStrength(20);
 	
-	Background *caveBg = new Background();
-	caveBg->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-	caveBg->setLayer(-1);
-	caveBg->setPos(-1, -1);
-	gameProps->getCam()->addDrag(caveBg, 0.91);
-	objHolder->addObject(caveBg);
-	
-	SpikeBall *sb = new SpikeBall();
-	sb->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-	sb->setPos(5, 5);
-	objHolder->addObject(sb);
-	
-	SpikeBall *sb2 = new SpikeBall();
-	sb2->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-	sb2->setNumPatrol(2);
-	sb2->addPatrol(10, 5, 1);
-	sb2->addPatrol(10, 3, 1);
-	sb2->setPos(10, 3);
-	objHolder->addObject(sb2);
-	
-	SpikeBall *sb3 = new SpikeBall();
-	sb3->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-	sb3->setNumPatrol(2);
-	sb3->addPatrol(12, 3, 1);
-	sb3->addPatrol(12, 5, 1);
-	sb3->setPos(12, 5);
-	objHolder->addObject(sb3);
-	
-	StoneEmblem *spawn = new StoneEmblem();
-	spawn->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-	spawn->setPos(1, 3);
-	objHolder->addObject(spawn);
-	
-	StoneEmblem *spawn2 = new StoneEmblem();
-	spawn2->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-	spawn2->setPos(7, 3);
-	objHolder->addObject(spawn2);
-	
-	gameProps->setActiveSpawn(spawn);
-	
-	for (int i = 0; i < 14; ++i)
-	{
-		Wall *w = new Wall();
-		w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-		w->setPos(i, 6);
-		objHolder->addObject(w);
-	}
-	
-	for (int i = 0; i < 2; ++i)
-	{
-		Wall *w = new Wall();
-		w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-		w->setPos(14, 5-i);
-		objHolder->addObject(w);
-	}
-	{
-		Wall *w = new Wall();
-		w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-		w->setPos(4, 5);
-		objHolder->addObject(w);
-	}
-	
-	WallGun *wg = new WallGun();
-	wg->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-	wg->setPos(13.5, 3);
-	objHolder->addObject(wg);
+	makeLevel(gameProps, objHolder);
 	
 	// now that we're done adding all the walls, we gotta calculate all the wall's neighbors
 	//  to mitigate the foul glitch only known as... "the you sometimes get tripped up when

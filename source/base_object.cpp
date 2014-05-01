@@ -16,6 +16,10 @@ BaseObject::BaseObject()
 	shouldBeRemoved = 0;
 	restitution = 3;
 	layer = 0;
+	dir_facing = 0;
+	timeSinceStart = 0;
+	cooldown = 0;
+	cur_anim = 0;
 }
 
 BaseObject::~BaseObject()
@@ -38,6 +42,12 @@ void BaseObject::setAnimation(Animation *a)
 	if (animInst != NULL)
 		delete animInst;
 	animInst = new AnimationInstance(a);
+}
+
+void BaseObject::setAnimation(AnimationHolder *animHolder, int anim)
+{
+	cur_anim = anim;
+	setAnimation(animHolder->get_anim(anim));
 }
 
 int BaseObject::checkHitDir(int hd)
@@ -95,13 +105,18 @@ char BaseObject::getShoves()
 
 int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, float delta)
 {
+	timeSinceStart += delta;// for things that remove themselves after a while,
+		// or explode or whatever
+	if (cooldown > 0)
+		cooldown -= delta;
+	simpleUpdate(delta);
 	//kinematic stuff
 	pos->addMul(vel, delta);
 	vel->mul(1-(restitution*delta));
 	animInst->update(delta);
 	//reset the hit dir
 	hitDir = 0;
-	if (checkType(TYP_CLIPS))
+	if (checkType(TYP_CLIPS) || checkType(TYP_HITS))
 	{
 		ObjectIterator *objIter = objHolder->getIterator();
 		BaseObject *curr;
@@ -109,7 +124,7 @@ int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  Audi
 		{
 			curr = objHolder->next(objIter);
 			each_object(objHolder, gameProps,  audioPlayer, contrlr, curr, delta);
-			if (curr->checkType(TYP_SOLID))
+			if (checkType(TYP_CLIPS) && curr->checkType(TYP_SOLID))
 			{
 				Pos2 *dst = pos->intersection(
 					size, 
@@ -147,6 +162,11 @@ int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  Audi
 	}
 	return 1;
 }
+int BaseObject::simpleUpdate(float delta)
+{
+	
+	return 1;
+}
 
 Pos2 *BaseObject::getSize()
 {
@@ -181,6 +201,11 @@ void BaseObject::setLayer(int l)
 }
 void BaseObject::die(BaseObject *killer)
 {
+	
+}
+void BaseObject::setSpeed(float s)
+{
+	speed = s;
 }
 
 int BaseObject::draw(ResourceLoader *resLoader, GameProperties *gameProps, SDL_Surface *screen)
@@ -209,11 +234,14 @@ int BaseObject::draw(ResourceLoader *resLoader, GameProperties *gameProps, SDL_S
 
 int BaseObject::doDraw(float x, float y, ResourceLoader *resLoader, GameProperties *gameProps, SDL_Surface *screen)
 {
-	animInst->draw(
-		resLoader, 
-		screen, 
-		x, 
-		y
-	);
+	if (animInst != NULL)
+	{
+		animInst->draw(
+			resLoader, 
+			screen, 
+			x, 
+			y
+		);
+	}
 	return 1;
 }

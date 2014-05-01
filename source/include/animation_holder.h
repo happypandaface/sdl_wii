@@ -18,20 +18,18 @@ class AnimationHolder;
 #define ANIM_DIRT_WALL_E 10
 #define ANIM_DIRT_WALL_S 11
 #define ANIM_DIRT_WALL_W 12
-/*
-#define ANIM_DIRT_WALL_NE 13
-#define ANIM_DIRT_WALL_NS 14
-#define ANIM_DIRT_WALL_NW 15
-#define ANIM_DIRT_WALL_ES 16
-#define ANIM_DIRT_WALL_EW 17
-#define ANIM_DIRT_WALL_SW 18
-#define ANIM_DIRT_WALL_NES 19
-#define ANIM_DIRT_WALL_ESW 20
-#define ANIM_DIRT_WALL_SWN 21
-#define ANIM_DIRT_WALL_WNE 22
-#define ANIM_DIRT_WALL_ALL 23*/
+#define ANIM_PLR_INDCTR_1 13
+#define ANIM_PLR_INDCTR_2 14
+#define ANIM_PLR_INDCTR_3 15
+#define ANIM_PLR_INDCTR_4 16
+#define ANIM_BLUE_LAZER 17
+#define ANIM_COOL_GUY_WALK_LEFT 18
+#define ANIM_COOL_GUY_WALK_RIGHT 19
+#define ANIM_COOL_GUY_STAND_LEFT 20
+#define ANIM_COOL_GUY_STAND_RIGHT 21
+#define ANIM_RED_LAZER 22
 
-#define NUM_ANIMS 12 // should be the last ANIM_ (assuming they're all incrementing correctly)
+#define NUM_ANIMS 22 // should be the last ANIM_ (assuming they're all incrementing correctly)
 
 class AnimationHolder
 {

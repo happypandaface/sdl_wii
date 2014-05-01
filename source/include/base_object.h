@@ -25,6 +25,8 @@ class BaseObject
 		BaseObject();
 		virtual ~BaseObject();
 		virtual int load(ResourceLoader *resLoader, AnimationHolder *animHolder);
+		virtual int simpleUpdate(float delta);//made b/c when I'm making a subclass and I'm lazy 
+			// and don't need all the stuff in update i dont wanna c&p it all
 		virtual int update(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta);
 		virtual int each_object(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, BaseObject *curr, float delta);
 		virtual int draw(ResourceLoader *resLoader, GameProperties *gameProps, SDL_Surface *screen);
@@ -33,6 +35,7 @@ class BaseObject
 		virtual int checkIfShouldBeRemoved();
 		virtual void setToBeRemoved(int remove);
 		virtual void setAnimation(Animation *a);
+		virtual void setAnimation(AnimationHolder *animHolder, int anim);
 		virtual void doGravity(float strength, float delta);
 		virtual Pos2 *getPosition();
 		virtual int getLayer();
@@ -41,6 +44,7 @@ class BaseObject
 		virtual void doDeath(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta);
 		virtual void setOffset(float x, float y);
 		virtual void load_animations(AnimationHolder *animHolder);
+		virtual void setSpeed(float s);
 		char getShoves();
 		Pos2 *getSize();
 		int checkHitDir(int hitDir);
@@ -58,6 +62,10 @@ class BaseObject
 		float speed;
 		int hitDir;
 		float restitution;
+		float timeSinceStart;
+		float cooldown;// a generic cooldown
+		char dir_facing;
+		int cur_anim;
 	private:
 		int layer;
 		long types;

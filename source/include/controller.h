@@ -9,6 +9,7 @@
 #define CTRL_UP 4
 #define CTRL_DOWN 5
 #define CTRL_2 6
+#define CTRL_A 7
 
 #define NUM_CONTROLLERS 4
 

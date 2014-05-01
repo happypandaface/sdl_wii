@@ -1,5 +1,5 @@
-#ifndef _WALL_GUN_H_
-#define _WALL_GUN_H_
+#ifndef _WALL_GUN_IMG_H_
+#define _WALL_GUN_IMG_H_
 // 32x32 1x1 PNG
 int wallGunSize = 956;
 unsigned char wallGunData[] =

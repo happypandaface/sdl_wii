@@ -22,8 +22,24 @@
 #define IMG_DIRT_SQUARE_SOUTH 17
 #define IMG_DIRT_SQUARE_EAST 18
 #define IMG_DIRT_SQUARE_WEST 19
+#define IMG_PLR_INDCTR_1 20
+#define IMG_PLR_INDCTR_2 21
+#define IMG_PLR_INDCTR_3 22
+#define IMG_PLR_INDCTR_4 23
+#define IMG_BLUE_LAZER_1 24
+#define IMG_BLUE_LAZER_2 25
+#define IMG_BLUE_LAZER_3 26
+#define IMG_COOL_GUY_WALK_RIGHT_1 27
+#define IMG_COOL_GUY_WALK_RIGHT_2 28
+#define IMG_COOL_GUY_WALK_LEFT_1 29
+#define IMG_COOL_GUY_WALK_LEFT_2 30
+#define IMG_COOL_GUY_STAND_LEFT 31
+#define IMG_COOL_GUY_STAND_RIGHT 32
+#define IMG_RED_LAZER_1 33
+#define IMG_RED_LAZER_2 34
+#define IMG_RED_LAZER_3 35
 
-#define NUM_IMAGES 19 // this should be the num of the last IMG_
+#define NUM_IMAGES 35 // this should be the num of the last IMG_
 
 class ResourceLoader
 {

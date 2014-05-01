@@ -6,14 +6,14 @@
 
 Pos2::Pos2()
 {
-	this->x = 0;
-	this->y = 0;
+	x = 0;
+	y = 0;
 }
 
 Pos2::Pos2(float x, float y)
 {
-	this->x = x;
-	this->y = y;
+	setX(x);
+	setY(y);
 }
 
 Pos2::~Pos2()
@@ -44,23 +44,23 @@ float Pos2::dst(Pos2 *other)
 string Pos2::toString()
 {
 	ostringstream ss;
-	ss << this->x << ", " << this->y;
+	ss << x << ", " << y;
 	return ss.str();
 }
 
 float Pos2::getX()
 {
-	this->x = x;
+	x = x;
 	return x;
 }
 float Pos2::getY()
 {
-	this->y = y;
+	y = y;
 	return y;
 }
 float Pos2::len2()
 {
-	return this->x*this->x+this->y*this->y;
+	return x*x+y*y;
 }
 float Pos2::len()
 {
@@ -68,13 +68,13 @@ float Pos2::len()
 }
 float Pos2::mulX(float scl)
 {
-	this->x *= scl;
-	return this->x;
+	x *= scl;
+	return x;
 }
 float Pos2::mulY(float scl)
 {
-	this->y *= scl;
-	return this->y;
+	y *= scl;
+	return y;
 }
 Pos2 *Pos2::mul(float scl)
 {
@@ -97,32 +97,38 @@ Pos2 *Pos2::set(Pos2 *set)
 float Pos2::setX(float x)
 {
 	this->x = x;
-	return x;
+	return this->x;
 }
 float Pos2::setY(float y)
 {
 	this->y = y;
-	return y;
+	return this->y;
+}
+Pos2 *Pos2::add(float x, float y)
+{
+	addX(x);
+	addY(y);
+	return this;
 }
 float Pos2::addX(float x)
 {
 	this->x += x;
-	return x;
+	return this->x;
 }
 float Pos2::addY(float y)
 {
 	this->y += y;
-	return y;
+	return this->y;
 }
 float Pos2::subX(float x)
 {
 	this->x -= x;
-	return x;
+	return this->x;
 }
 float Pos2::subY(float y)
 {
 	this->y -= y;
-	return y;
+	return this->y;
 }
 
 Pos2 *Pos2::add(Pos2 *p)
@@ -163,58 +169,111 @@ Pos2 *Pos2::sub(float x, float y)
 	return this;
 }
 
-Pos2 *Pos2::intersection(Pos2 *size1, Pos2 *pos2, Pos2 *size2)
+// this currently returns a pos2 because I think it should calc stuff in the future,
+// but for now it just does a simple calculation
+Pos2 *Pos2::circRectIntersect(float offx, float offy, float radius, Pos2 *rectPos, Pos2 *rectSize)
 {
-	return intersection(size1, pos2, size2, ~0);
+	if (x+offx + radius >= rectPos->x &&
+		y+offy + radius >= rectPos->y &&
+		x+offx - radius <= rectPos->x + rectSize->x &&
+		y+offy - radius <= rectPos->y + rectSize->y)
+	{// the hit boxes collide, but this is a circle
+		// so it could be in one of the 4 corners of the rectangle
+		// around the circle, where it wouldn't hit.
+		// check that:
+		if (rectPos->x < x+offx &&
+			rectPos->x+rectSize->x > x+offx)
+			return new Pos2();
+		if (rectPos->y < y+offy &&
+			rectPos->y+rectSize->y > y+offy)
+			return new Pos2();
+		// now just check the distance to all 4 courners,
+		// (this could be done faster by calculating which
+		// corner we should check)
+		Pos2 distPos;
+		Pos2 cornerPos;
+		{// first Corner:
+			float dist = distPos.set(this)->add(offx, offy)->sub(rectPos)->len();
+			if (dist < radius)
+				return new Pos2();
+		}
+		{// second Corner now it's getting harder!:
+			cornerPos.set(rectPos)->addX(rectSize->getX());
+			float dist = distPos.set(this)->add(offx, offy)->sub(&cornerPos)->len();
+			if (dist < radius)
+				return new Pos2();
+		}
+		{// third Corner omg what?!?!:
+			cornerPos.set(rectPos)->addY(rectSize->getY());
+			float dist = distPos.set(this)->add(offx, offy)->sub(&cornerPos)->len();
+			if (dist < radius)
+				return new Pos2();
+		}
+		{// fourth Corner OMMMMGGGEEEEEWWWTFFFBBBQQQQQWTF~!!!!!11!
+			cornerPos.set(rectPos)->add(rectSize);
+			float dist = distPos.set(this)->add(offx, offy)->sub(&cornerPos)->len();
+			if (dist < radius)
+				return new Pos2();
+		}
+	}
+	return NULL;
 }
 
+Pos2 *Pos2::intersection(Pos2 *size1, Pos2 *pos2, Pos2 *size2)
+{
+	return intersection(size1, pos2, size2, ~((char) 0));
+}
+
+// intersection is used to tell what + or - cardinal direction is the fastest out
+// of a rectangle, given another rectangle.
+// it's used for collision testing and clipping (push out of wall)
+// if walls should be flush with eachother (and directly next to eachother),
+//  they shouldn't push things out into the other one.
+// this is where "canShoves" comes in
+// it tell the method which directions are legal to push the rect out.
+// kinda confusing :/
 Pos2 *Pos2::intersection(Pos2 *size1, Pos2 *pos2, Pos2 *size2, char canShoves)
 {
-	if (this->x + size1->x >= pos2->x &&
-		this->y + size1->y >= pos2->y &&
-		this->x <= pos2->x + size2->x &&
-		this->y <= pos2->y + size2->y)
+	if (x + size1->x >= pos2->x &&
+		y + size1->y >= pos2->y &&
+		x <= pos2->x + size2->x &&
+		y <= pos2->y + size2->y)
 	{
-		float distX1 = (this->x + size1->x) - pos2->x;
-		float distX2 = (this->x - size2->x) - pos2->x;
-		float distY1 = (this->y + size1->y) - pos2->y;
-		float distY2 = (this->y - size2->y) - pos2->y;
-		Pos2 *rtn = new Pos2();
+		float distX1 = (x + size1->x) - pos2->x;
+		float distX2 = (x - size2->x) - pos2->x;
+		float distY1 = (y + size1->y) - pos2->y;
+		float distY2 = (y - size2->y) - pos2->y;
+		// this stuff is complicated:
+		// it always is...
+		// so canShove is 4 bools to tell which directions should
+		// be legal to push
 		if (canShoves & DIR_RIGHT && 
 			(abs(distX2) < abs(distX1) || ~canShoves & DIR_LEFT) &&
 			(abs(distX2) < abs(distY1) || ~canShoves & DIR_UP) &&
 			(abs(distX2) < abs(distY2) || ~canShoves & DIR_DOWN))
 		{
-			rtn->setX(distX2);
-			rtn->setY(0);
-			return rtn;
+			return new Pos2(distX2, 0);
 		}else
 		if (canShoves & DIR_LEFT && 
 			(abs(distX1) < abs(distX2) || ~canShoves & DIR_RIGHT) &&
 			(abs(distX1) < abs(distY1) || ~canShoves & DIR_UP) &&
 			(abs(distX1) < abs(distY2) || ~canShoves & DIR_DOWN))
 		{
-			rtn->setX(distX1);
-			rtn->setY(0);
-			return rtn;
+			return new Pos2(distX1, 0);
 		}else
 		if (canShoves & DIR_UP && 
 			(abs(distY1) < abs(distX2) || ~canShoves & DIR_RIGHT) &&
 			(abs(distY1) < abs(distX1) || ~canShoves & DIR_LEFT) &&
 			(abs(distY1) < abs(distY2) || ~canShoves & DIR_UP))
 		{
-			rtn->setX(0);
-			rtn->setY(distY1);
-			return rtn;
+			return new Pos2(0, distY1);
 		}else
 		if (canShoves & DIR_DOWN && 
-			(abs(distY2) < abs(distX2) || canShoves & DIR_RIGHT) &&
-			(abs(distY2) < abs(distX1) || canShoves & DIR_LEFT) &&
-			(abs(distY2) < abs(distY1) || canShoves & DIR_DOWN))
+			(abs(distY2) < abs(distX2) || ~canShoves & DIR_RIGHT) &&
+			(abs(distY2) < abs(distX1) || ~canShoves & DIR_LEFT) &&
+			(abs(distY2) < abs(distY1) || ~canShoves & DIR_DOWN))
 		{
-			rtn->setX(0);
-			rtn->setY(distY2);
-			return rtn;
+			return new Pos2(0, distY2);
 		}
 	}
 	return NULL;

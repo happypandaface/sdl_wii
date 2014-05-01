@@ -10,6 +10,7 @@ class Player;
 #include "game_properties.h"
 #include "base_object.h"
 #include "animation_holder.h"
+#include "player_indicator.h"
 
 class Player : public BaseObject
 {
@@ -23,8 +24,13 @@ class Player : public BaseObject
 		int each_object(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, BaseObject *curr, float delta);
 		void doDeath(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta);
 	private:
+		int released_suicide_button;
+		int released_fire_button;
+		float gun_cooldown;
 		int controller_num;
+		int needs_indicator_make;
 		float jumpVel;
 		float jumpGlide;
+		PlayerIndicator *pi;
 };
 #endif
