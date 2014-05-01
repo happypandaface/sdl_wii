@@ -158,11 +158,17 @@ int main(int argc, char** argv){
 		objHolder->addObject(w);
 	}
 	
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 2; ++i)
 	{
 		Wall *w = new Wall();
 		w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
 		w->setPos(14, 5-i);
+		objHolder->addObject(w);
+	}
+	{
+		Wall *w = new Wall();
+		w->load(gameProps->getResLoader(), gameProps->getAnimHolder());
+		w->setPos(4, 5);
 		objHolder->addObject(w);
 	}
 	

@@ -3,6 +3,11 @@
 
 #include <string>
 
+#define DIR_DOWN 1<<0
+#define DIR_RIGHT 1<<1
+#define DIR_LEFT 1<<2
+#define DIR_UP 1<<3
+
 using namespace std;
 
 class Pos2
@@ -36,6 +41,7 @@ class Pos2
 		Pos2 *sub(Pos2 *p);
 		Pos2 *sub(float x, float y);
 		Pos2 *intersection(Pos2 *size1, Pos2 *pos2, Pos2 *size2);
+		Pos2 *intersection(Pos2 *size1, Pos2 *pos2, Pos2 *size2, char canShoves);
 		string toString();
 	private:
 		float x;

@@ -19,11 +19,6 @@ class BaseObject;
 #define TYP_DEAD 1<<3
 #define TYP_HAS_GRAV 1<<4
 
-#define DIR_DOWN 1<<0
-#define DIR_RIGHT 1<<1
-#define DIR_LEFT 1<<2
-#define DIR_UP 1<<3
-
 class BaseObject
 {
 	public:
@@ -46,6 +41,7 @@ class BaseObject
 		virtual void doDeath(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta);
 		virtual void setOffset(float x, float y);
 		virtual void load_animations(AnimationHolder *animHolder);
+		char getShoves();
 		Pos2 *getSize();
 		int checkHitDir(int hitDir);
 		int checkType(long type);
@@ -53,6 +49,7 @@ class BaseObject
 		void removeType(long type);
 	protected:
 		int shouldBeRemoved;
+		char canShoves;
 		Pos2 *pos;
 		Pos2 *size;
 		Pos2 *vel;

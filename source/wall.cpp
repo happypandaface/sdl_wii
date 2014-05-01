@@ -69,27 +69,34 @@ void Wall::calcNeighbors(ObjectHolder *objHolder, GameProperties *gameProps)
 	while(objHolder->hasNext(objIter))
 	{
 		curr = objHolder->next(objIter);
-		if (curr->getPosition()->getX() == getPosition()->getX())
+		Wall *wll = dynamic_cast<Wall*>(curr);
+		if (wll != NULL)
 		{
-			if (curr->getPosition()->getY() == getPosition()->getY()+getSize()->getY())
+			if (curr->getPosition()->getX() == getPosition()->getX())
 			{
-				neighbors[NEIGHBOR_SOUTH].exists = 1;
+				if (curr->getPosition()->getY() == getPosition()->getY()+getSize()->getY())
+				{
+					canShoves &= ~DIR_DOWN;
+					neighbors[NEIGHBOR_SOUTH].exists = 1;
+				}else
+				if (curr->getPosition()->getY() == getPosition()->getY()-getSize()->getY())
+				{
+					canShoves &= ~DIR_UP;
+					neighbors[NEIGHBOR_NORTH].exists = 1;
+				}
 			}else
-			if (curr->getPosition()->getY() == getPosition()->getY()-getSize()->getY())
+			if (curr->getPosition()->getY() == getPosition()->getY())
 			{
-				//setAnimation(gameProps->getAnimHolder()->get_anim(ANIM_DIRT_WALL_NORTH));
-				neighbors[NEIGHBOR_NORTH].exists = 1;
-			}
-		}else
-		if (curr->getPosition()->getY() == getPosition()->getY())
-		{
-			if (curr->getPosition()->getX() == getPosition()->getX()+getSize()->getX())
-			{
-				neighbors[NEIGHBOR_EAST].exists = 1;
-			}else
-			if (curr->getPosition()->getX() == getPosition()->getX()-getSize()->getX())
-			{
-				neighbors[NEIGHBOR_WEST].exists = 1;
+				if (curr->getPosition()->getX() == getPosition()->getX()+getSize()->getX())
+				{
+					canShoves &= ~DIR_RIGHT;
+					neighbors[NEIGHBOR_EAST].exists = 1;
+				}else
+				if (curr->getPosition()->getX() == getPosition()->getX()-getSize()->getX())
+				{
+					canShoves &= ~DIR_LEFT;
+					neighbors[NEIGHBOR_WEST].exists = 1;
+				}
 			}
 		}
 	}

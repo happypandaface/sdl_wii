@@ -165,6 +165,11 @@ Pos2 *Pos2::sub(float x, float y)
 
 Pos2 *Pos2::intersection(Pos2 *size1, Pos2 *pos2, Pos2 *size2)
 {
+	return intersection(size1, pos2, size2, ~0);
+}
+
+Pos2 *Pos2::intersection(Pos2 *size1, Pos2 *pos2, Pos2 *size2, char canShoves)
+{
 	if (this->x + size1->x >= pos2->x &&
 		this->y + size1->y >= pos2->y &&
 		this->x <= pos2->x + size2->x &&
@@ -174,23 +179,43 @@ Pos2 *Pos2::intersection(Pos2 *size1, Pos2 *pos2, Pos2 *size2)
 		float distX2 = (this->x - size2->x) - pos2->x;
 		float distY1 = (this->y + size1->y) - pos2->y;
 		float distY2 = (this->y - size2->y) - pos2->y;
-		float distX = distX1;
-		float distY = distY1;
-		if (abs(distX2) < abs(distX1))
-			distX = distX2;
-		if (abs(distY2) < abs(distY1))
-			distY = distY2;
 		Pos2 *rtn = new Pos2();
-		if (abs(distY) < abs(distX))
+		if (canShoves & DIR_RIGHT && 
+			(abs(distX2) < abs(distX1) || ~canShoves & DIR_LEFT) &&
+			(abs(distX2) < abs(distY1) || ~canShoves & DIR_UP) &&
+			(abs(distX2) < abs(distY2) || ~canShoves & DIR_DOWN))
 		{
-			rtn->setY(distY);
-			rtn->setX(0);
-		}else
-		{
-			rtn->setX(distX);
+			rtn->setX(distX2);
 			rtn->setY(0);
+			return rtn;
+		}else
+		if (canShoves & DIR_LEFT && 
+			(abs(distX1) < abs(distX2) || ~canShoves & DIR_RIGHT) &&
+			(abs(distX1) < abs(distY1) || ~canShoves & DIR_UP) &&
+			(abs(distX1) < abs(distY2) || ~canShoves & DIR_DOWN))
+		{
+			rtn->setX(distX1);
+			rtn->setY(0);
+			return rtn;
+		}else
+		if (canShoves & DIR_UP && 
+			(abs(distY1) < abs(distX2) || ~canShoves & DIR_RIGHT) &&
+			(abs(distY1) < abs(distX1) || ~canShoves & DIR_LEFT) &&
+			(abs(distY1) < abs(distY2) || ~canShoves & DIR_UP))
+		{
+			rtn->setX(0);
+			rtn->setY(distY1);
+			return rtn;
+		}else
+		if (canShoves & DIR_DOWN && 
+			(abs(distY2) < abs(distX2) || canShoves & DIR_RIGHT) &&
+			(abs(distY2) < abs(distX1) || canShoves & DIR_LEFT) &&
+			(abs(distY2) < abs(distY1) || canShoves & DIR_DOWN))
+		{
+			rtn->setX(0);
+			rtn->setY(distY2);
+			return rtn;
 		}
-		return rtn;
 	}
 	return NULL;
 }

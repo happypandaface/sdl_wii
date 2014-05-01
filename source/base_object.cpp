@@ -4,6 +4,7 @@
 
 BaseObject::BaseObject()
 {
+	canShoves = ~0;// can shove in any direction
 	animInst = NULL;
 	speed = 8;
 	pos = new Pos2();
@@ -84,8 +85,12 @@ void BaseObject::setOffset(float x, float y)
 
 int BaseObject::each_object(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, BaseObject *curr, float delta)
 {
-	
+	// override for easy stuff
 	return 0;
+}
+char BaseObject::getShoves()
+{
+	return canShoves;
 }
 
 int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, float delta)
@@ -109,7 +114,8 @@ int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  Audi
 				Pos2 *dst = pos->intersection(
 					size, 
 					curr->getPosition(), 
-					curr->size);
+					curr->size,
+					curr->getShoves());
 				if (dst != NULL)
 				{
 					if (dst->getY() > 0){
