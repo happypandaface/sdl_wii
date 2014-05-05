@@ -1,5 +1,8 @@
 #include "game_properties.h"
 #include "spawner.h"
+#include <iostream>
+#include "levels/level1.h"
+#include "levels/level2.h"
 
 GameProperties::GameProperties()
 {
@@ -10,10 +13,11 @@ GameProperties::GameProperties()
 	objsToAdd = new ObjectHolder();
 	resLoader = new ResourceLoader();
 	animHolder = new AnimationHolder();
+	lvlSelect = new LevelSelect();
 	players = 0;
 	activeSpawn = NULL;
 	frozen = 0;
-	ending_level = 0;
+	ending_level = 1;
 }
 
 GameProperties::~GameProperties()
@@ -25,6 +29,11 @@ GameProperties::~GameProperties()
 	delete objsToAdd;
 	delete resLoader;
 	delete animHolder;
+	delete lvlSelect;
+}
+LevelSelect *GameProperties::getLevelSelect()
+{
+	return lvlSelect;
 }
 
 void GameProperties::setActiveSpawn(Spawner *s)
@@ -77,7 +86,6 @@ AnimationHolder *GameProperties::getAnimHolder()
 {
 	return animHolder;
 }
-#include <iostream>
 void GameProperties::addObjsTo(ObjectHolder *objs)
 {
 	if (objs != NULL)
@@ -147,6 +155,13 @@ int GameProperties::isFrozen()
 {
 	return frozen;
 }
+void GameProperties::makeLevel(ObjectHolder *objHolder)
+{
+	if (getLevelSelect()->getSelection() == 1)
+		makeLevel1(this, objHolder);
+	else if (getLevelSelect()->getSelection() == 2)
+		makeLevel2(this, objHolder);
+}
 void GameProperties::endLevel()
 {
 	// you gotta get rid of all the stuff gameProps is holding on to
@@ -155,6 +170,8 @@ void GameProperties::endLevel()
 	// maybe gameProps should never hold on to things, but just actively
 	// search and find things with TYP_*
 	activeSpawn = NULL;
+	// also reset the level select so we don't immediately select a level
+	getLevelSelect()->startSelecting();
 	
 	ending_level = 1;
 }

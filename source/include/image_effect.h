@@ -11,8 +11,8 @@ class ImageEffect
 		ImageEffect();
 		virtual ~ImageEffect();
 		virtual void setTime(float);
-		void apply(SDL_Rect *src, SDL_Rect *dst);
-		virtual void applyRect(SDL_Rect *src, SDL_Rect *dst);
+		int apply(SDL_Rect *src, SDL_Rect *dst);
+		virtual int applyRect(SDL_Rect *src, SDL_Rect *dst);
 		void reset();
 	protected:
 		float time;

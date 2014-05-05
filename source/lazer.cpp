@@ -14,6 +14,12 @@ void Lazer::setDirection(char dir)
 		vel->setX(-speed);
 	else if (dir & DIR_RIGHT)
 		vel->setX(speed);
+	BaseObject::setDirection(dir);
+}
+
+void Lazer::setShooter(BaseObject *b)
+{
+	shooter = b;
 }
 
 int Lazer::update(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta)

@@ -11,8 +11,9 @@ class Player;
 #include "base_object.h"
 #include "animation_holder.h"
 #include "player_indicator.h"
+#include "guy.h"
 
-class Player : public BaseObject
+class Player : public Guy
 {
 	public:
 		Player();

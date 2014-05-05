@@ -7,6 +7,7 @@ class BlueLazer : public Lazer
 {
 	public:
 		BlueLazer();
+		int each_object(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, BaseObject *curr, float delta);
 		void load_animations(AnimationHolder *animHolder);
 };
 

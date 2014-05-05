@@ -7,8 +7,6 @@
 
 Player::Player()
 {
-	addType(TYP_CLIPS);
-	addType(TYP_HAS_GRAV);
 	controller_num = 0;
 	jumpVel = 8;
 	jumpGlide = 18;
@@ -47,21 +45,12 @@ void Player::setController(int num)
 void Player::die(BaseObject *killer)
 {
 	pi->playerDied(this);
-	addType(TYP_DEAD);
-	//pos->set(0, 0);
-	//vel->set(0, 0);
+	Guy::die(killer);
 }
 
 void Player::doDeath(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta)
 {
-	// add the giblets!
-	for (int i = 0; i < 5; ++i)
-	{
-		Giblet *g1 = new Giblet();
-		g1->load(gameProps->getResLoader(), gameProps->getAnimHolder());
-		g1->setPos(pos->getX(), pos->getY());
-		gameProps->addObject(g1);
-	}
+	Guy::doDeath(objHolder, gameProps, audioPlayer, contrlr, delta);
 	gameProps->removePlayer();
 	removeType(TYP_DEAD);
 	gameProps->getCam()->removeFollow(this);
@@ -89,6 +78,9 @@ int Player::update(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlay
 		end_level_anim_time += delta;
 	}else
 	{
+		// out of range death:
+		if (Guy::checkDeath(gameProps) == 1)
+			die(NULL);
 		if (needs_indicator_make)
 		{
 			needs_indicator_make = 0;
@@ -96,8 +88,10 @@ int Player::update(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlay
 			pi->load(gameProps->getResLoader(), gameProps->getAnimHolder());
 			gameProps->addObject(pi);
 		}
-		if (getPosition()->getY() > 7)
-			die(NULL);
+		if (contrlr->key_down(controller_num, CTRL_MINUS))
+		{
+			gameProps->endLevel();
+		}
 		if (contrlr->key_down(controller_num, CTRL_A))
 		{
 			if (released_suicide_button == 1)
@@ -130,7 +124,8 @@ int Player::update(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlay
 				setAnimation(gameProps->getAnimHolder(), ANIM_COOL_GUY_STAND_LEFT);
 		}
 		
-		if (contrlr->key_down(controller_num, CTRL_UP))
+		if (contrlr->key_down(controller_num, CTRL_UP) ||
+			contrlr->key_down(controller_num, CTRL_1))
 		{
 			if (checkHitDir(DIR_DOWN))
 			{
@@ -151,6 +146,7 @@ int Player::update(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlay
 				pos->addY(delta*speed);
 				audioPlayer->playSound(SND_TONE);
 				BlueLazer *bl = new BlueLazer();
+				bl->setShooter(this);
 				bl->load(gameProps->getResLoader(), gameProps->getAnimHolder());
 				bl->setPos(pos->getX(), pos->getY());
 				bl->setDirection(dir_facing);

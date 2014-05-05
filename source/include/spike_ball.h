@@ -6,6 +6,7 @@
 class SpikeBall : public Patroller
 {
 	public:
+		SpikeBall();
 		void load_animations(AnimationHolder *animHolder);
 		int update(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, float delta);
 };

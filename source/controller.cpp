@@ -14,6 +14,8 @@
 #define CTRL_BIT_DOWN 0b00010000
 #define CTRL_BIT_2 0b00100000
 #define CTRL_BIT_A 0b01000000
+#define CTRL_BIT_1 0b10000000
+#define CTRL_BIT_MINUS 0b100000000
 
 Controller::Controller()
 {
@@ -64,6 +66,8 @@ void Controller::update()
 					keysDown[0] |= CTRL_BIT_2;
 				else if (event->key.keysym.sym == SDLK_n)
 					keysDown[0] |= CTRL_BIT_A;
+				else if (event->key.keysym.sym == SDLK_u)
+					keysDown[0] |= CTRL_BIT_MINUS;
 				else if (event->key.keysym.sym == SDLK_d)
 					keysDown[1] |= CTRL_BIT_RIGHT;
 				else if (event->key.keysym.sym == SDLK_a)
@@ -76,6 +80,8 @@ void Controller::update()
 					keysDown[1] |= CTRL_BIT_2;
 				else if (event->key.keysym.sym == SDLK_c)
 					keysDown[1] |= CTRL_BIT_A;
+				else if (event->key.keysym.sym == SDLK_e)
+					keysDown[1] |= CTRL_BIT_MINUS;
 			}else if (event->type == SDL_KEYUP)
 			{
 				if (event->key.keysym.sym == SDLK_l)
@@ -90,6 +96,8 @@ void Controller::update()
 					keysDown[0] &= ~CTRL_BIT_2;
 				else if (event->key.keysym.sym == SDLK_n)
 					keysDown[0] &= ~CTRL_BIT_A;
+				else if (event->key.keysym.sym == SDLK_u)
+					keysDown[0] &= ~CTRL_BIT_MINUS;
 				else if (event->key.keysym.sym == SDLK_d)
 					keysDown[1] &= ~CTRL_BIT_RIGHT;
 				else if (event->key.keysym.sym == SDLK_a)
@@ -102,6 +110,8 @@ void Controller::update()
 					keysDown[1] &= ~CTRL_BIT_2;
 				else if (event->key.keysym.sym == SDLK_c)
 					keysDown[1] &= ~CTRL_BIT_A;
+				else if (event->key.keysym.sym == SDLK_e)
+					keysDown[1] &= ~CTRL_BIT_MINUS;
 			}else if (event->type == SDL_QUIT)
 			{
 				keysDown[0] |= CTRL_BIT_QUIT;
@@ -125,10 +135,20 @@ void Controller::update()
 				keysDown[i] |= CTRL_BIT_2;
 			if(held & WPAD_BUTTON_A)
 				keysDown[i] |= CTRL_BIT_A;
+			if(held & WPAD_BUTTON_1)
+				keysDown[i] |= CTRL_BIT_1;
+			if(held & WPAD_BUTTON_MINUS)
+				keysDown[i] |= CTRL_BIT_MINUS;
 		}
 	#endif
 }
 
+int Controller::eat_key(int controller, int key)
+{
+	int rtn = key_down(controller, key);
+	keysDown[controller] &= ~key;
+	return rtn;
+}
 int Controller::key_down(int controller, int key)
 {
 	if (keysDown[controller] & CTRL_BIT_LEFT && key == CTRL_LEFT)
@@ -144,6 +164,10 @@ int Controller::key_down(int controller, int key)
 	if (keysDown[controller] & CTRL_BIT_2 && key == CTRL_2)
 		return 1;
 	if (keysDown[controller] & CTRL_BIT_A && key == CTRL_A)
+		return 1;
+	if (keysDown[controller] & CTRL_BIT_1 && key == CTRL_1)
+		return 1;
+	if (keysDown[controller] & CTRL_BIT_MINUS && key == CTRL_MINUS)
 		return 1;
 	return 0;
 }

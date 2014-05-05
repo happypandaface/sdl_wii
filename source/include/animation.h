@@ -48,6 +48,7 @@ class AnimationInstance
 		void draw(ResourceLoader *res_holder, SDL_Surface *screen, float x, float y);
 		int getTimesLooped();
 		void setMaxLoops(int i);
+		void reset();
 		int resetLoops();
 	private:
 		int timesLooped;

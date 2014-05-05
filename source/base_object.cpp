@@ -30,11 +30,18 @@ BaseObject::~BaseObject()
 	delete offset;
 	delete animInst;
 }
+void BaseObject::setDirection(char dir)
+{
+	dir_facing = dir;
+}
 
 void BaseObject::setPos(float x, float y)
 {
 	pos->setX(x);
 	pos->setY(y);
+}
+void BaseObject::alertDeath(BaseObject *died)
+{
 }
 
 void BaseObject::setAnimation(Animation *a)
@@ -161,6 +168,30 @@ int BaseObject::update(ObjectHolder *objHolder, GameProperties *gameProps,  Audi
 		objHolder->destroyIterator(objIter);
 	}
 	return 1;
+}
+int BaseObject::checkExists(ObjectHolder *objHolder, Pos2 *loc, long type)
+{
+	ObjectIterator *objIter = objHolder->getIterator();
+	BaseObject *curr;
+	Pos2 size(0, 0);
+	while(objHolder->hasNext(objIter))
+	{
+		curr = objHolder->next(objIter);
+		if (curr->checkType(type))
+		{
+			Pos2 *dst = loc->intersection(
+				&size,
+				curr->getPosition(), 
+				curr->size);
+			if (dst != NULL)
+			{
+				delete dst;
+				return 1;
+			}
+		}
+	}
+	objHolder->destroyIterator(objIter);
+	return 0;
 }
 int BaseObject::simpleUpdate(float delta)
 {

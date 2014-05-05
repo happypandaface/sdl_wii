@@ -1,5 +1,10 @@
 #include "spike_ball.h"
 
+SpikeBall::SpikeBall()
+{
+	addType(TYP_KILLS);
+	size->set(1, 1);
+}
 int SpikeBall::update(ObjectHolder *objHolder, GameProperties *gameProps,  AudioPlayer *audioPlayer, Controller *contrlr, float delta)
 {
 	Patroller::doPatrol(delta);

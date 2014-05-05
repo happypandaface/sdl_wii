@@ -6,6 +6,6 @@
 class ImgFxCut : public ImageEffect
 {
 	public:
-		void applyRect(SDL_Rect *src, SDL_Rect *dst);
+		int applyRect(SDL_Rect *src, SDL_Rect *dst);
 };
 #endif

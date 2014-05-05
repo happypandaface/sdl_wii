@@ -120,6 +120,11 @@ int AnimationInstance::getTimesLooped()
 {
 	return timesLooped;
 }
+void AnimationInstance::reset()
+{
+	resetLoops();
+	timePer = 0;
+}
 int AnimationInstance::resetLoops()
 {
 	timesLooped = 0;

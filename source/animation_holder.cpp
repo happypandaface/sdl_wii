@@ -18,11 +18,21 @@ AnimationHolder::~AnimationHolder()
 
 void AnimationHolder::load(ResourceLoader *res_loader)
 {
-	Animation *bg = new Animation(2);
-	bg->addFrame(IMG_CAVE_BG, 0, 0, 1);
-	bg->addFrame(IMG_CAVE_BG, 0, 0, 1);
-	bg->setBaseSpeed(.2);
-	anims[get_arr_pos(ANIM_BG)] = bg;
+	{
+		Animation *bg = new Animation(2);
+		bg->addFrame(IMG_CAVE_BG, 0, 0, 1);
+		bg->addFrame(IMG_CAVE_BG, 0, 0, 1);
+		bg->setBaseSpeed(.2);
+		anims[get_arr_pos(ANIM_BG)] = bg;
+	}
+	
+	{
+		Animation *bg = new Animation(2);
+		bg->addFrame(IMG_SWAMP_BG, 0, 0, 1);
+		bg->addFrame(IMG_SWAMP_BG, 0, 0, 1);
+		bg->setBaseSpeed(.2);
+		anims[get_arr_pos(ANIM_SWAMP_BG)] = bg;
+	}
 	
 	Animation *a1 = new Animation(2);
 	a1->addFrame(IMG_COOL_GUY2, 0, 0, 1);
@@ -207,7 +217,7 @@ void AnimationHolder::load(ResourceLoader *res_loader)
 		anims[get_arr_pos(ANIM_PLAYER_CUT_UP_RIGHT)] = anim;
 	}
 	{
-		Animation *anim = new Animation(8);
+		Animation *anim = new Animation(6);
 		anim->addFrame(IMG_FINISH_LEVEL_1, 0, 0, 1);
 		anim->addFrame(IMG_FINISH_LEVEL_3, 0, 0, 1);
 		anim->addFrame(IMG_FINISH_LEVEL_4, 0, 0, 1);
@@ -216,6 +226,78 @@ void AnimationHolder::load(ResourceLoader *res_loader)
 		anim->addFrame(IMG_FINISH_LEVEL_7, 0, 0, 1);
 		anim->setBaseSpeed(.5);
 		anims[get_arr_pos(ANIM_FINISH_LEVEL)] = anim;
+	}
+	{
+		Animation *anim = new Animation(8);
+		anim->addFrame(IMG_FLY_AROUND_1, 0, 0, 1);
+		anim->addFrame(IMG_FLY_AROUND_2, 0, 0, 1);
+		anim->addFrame(IMG_FLY_AROUND_3, 0, 0, 1);
+		anim->addFrame(IMG_FLY_AROUND_4, 0, 0, 1);
+		anim->addFrame(IMG_FLY_AROUND_5, 0, 0, 1);
+		anim->addFrame(IMG_FLY_AROUND_6, 0, 0, 1);
+		anim->addFrame(IMG_FLY_AROUND_7, 0, 0, 1);
+		anim->addFrame(IMG_FLY_AROUND_8, 0, 0, 1);
+		anim->setBaseSpeed(.7);
+		anims[get_arr_pos(ANIM_FLY_AROUND)] = anim;
+	}
+	{
+		Animation *anim = new Animation(7);
+		anim->addFrame(IMG_GOTO_WORLD_1, 0, 0, 1);
+		anim->addFrame(IMG_GOTO_WORLD_2, 0, 0, 1);
+		anim->addFrame(IMG_GOTO_WORLD_3, 0, 0, 1);
+		anim->addFrame(IMG_GOTO_WORLD_4, 0, 0, 1);
+		anim->addFrame(IMG_GOTO_WORLD_5, 0, 0, 2);
+		anim->addFrame(IMG_GOTO_WORLD_6, 0, 0, 3);
+		anim->addFrame(IMG_GOTO_WORLD_7, 0, 0, 4);
+		anim->setBaseSpeed(.7);
+		anim->setMaxLoops(1);
+		anims[get_arr_pos(ANIM_GOTO_WORLD)] = anim;
+	}
+	{
+		Animation *anim = new Animation(2);
+		anim->addFrame(IMG_ARCHER_GUY_WALK_LEFT1, 0, -5, 1);
+		anim->addFrame(IMG_ARCHER_GUY_WALK_LEFT2, 0, -5, 1);
+		anim->setBaseSpeed(1.2);
+		anims[get_arr_pos(ANIM_ARCHER_GUY_WALK_LEFT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(2);
+		anim->addFrame(IMG_ARCHER_GUY_WALK_RIGHT1, 0, -5, 1);
+		anim->addFrame(IMG_ARCHER_GUY_WALK_RIGHT2, 0, -5, 1);
+		anim->setBaseSpeed(1.2);
+		anims[get_arr_pos(ANIM_ARCHER_GUY_WALK_RIGHT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(3);
+		anim->addFrame(IMG_ARCHER_GUY_FIRE_LEFT1, -25, -35, 1);
+		anim->addFrame(IMG_ARCHER_GUY_FIRE_LEFT2, -50, -25, 1);
+		anim->addFrame(IMG_ARCHER_GUY_FIRE_LEFT3, -20, -15, 1);
+		anim->setBaseSpeed(.9);
+		anim->setMaxLoops(1);
+		anims[get_arr_pos(ANIM_ARCHER_GUY_FIRE_LEFT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(3);
+		anim->addFrame(IMG_ARCHER_GUY_FIRE_RIGHT1, -20, -30, 1);
+		anim->addFrame(IMG_ARCHER_GUY_FIRE_RIGHT2, -20, -15, 1);
+		anim->addFrame(IMG_ARCHER_GUY_FIRE_RIGHT3, -20, -20, 1);
+		anim->setBaseSpeed(.9);
+		anim->setMaxLoops(1);
+		anims[get_arr_pos(ANIM_ARCHER_GUY_FIRE_RIGHT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(2);
+		anim->addFrame(IMG_ARROW_LEFT_1, 0, 0, 1);
+		anim->addFrame(IMG_ARROW_LEFT_2, 0, 0, 1);
+		anim->setBaseSpeed(4);
+		anims[get_arr_pos(ANIM_ARROW_LEFT)] = anim;
+	}
+	{
+		Animation *anim = new Animation(2);
+		anim->addFrame(IMG_ARROW_RIGHT_1, 0, 0, 1);
+		anim->addFrame(IMG_ARROW_RIGHT_2, 0, 0, 1);
+		anim->setBaseSpeed(4);
+		anims[get_arr_pos(ANIM_ARROW_RIGHT)] = anim;
 	}
 }
 int AnimationHolder::get_arr_pos(int anim_type)

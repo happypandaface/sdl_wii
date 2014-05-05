@@ -13,18 +13,20 @@ class BaseObject;
 #include "object_holder.h"
 #include "animation_holder.h"
 
-#define TYP_CLIPS 1<<0
-#define TYP_SOLID 1<<1
-#define TYP_HITS 1<<2
-#define TYP_DEAD 1<<3
-#define TYP_HAS_GRAV 1<<4
-#define TYP_UNFRZN 1<<5
+#define TYP_CLIPS 0b00000000000000000000000000000001 << 0
+#define TYP_SOLID 0b00000000000000000000000000000001 << 1
+#define TYP_HITS 0b00000000000000000000000000000001 << 2
+#define TYP_DEAD 0b00000000000000000000000000000001 << 3
+#define TYP_HAS_GRAV 0b00000000000000000000000000000001 << 4
+#define TYP_UNFRZN 0b00000000000000000000000000000001 << 5
+#define TYP_KILLS 0b00000000000000000000000000000001 << 6
 
 class BaseObject
 {
 	public:
 		BaseObject();
 		virtual ~BaseObject();
+		int checkExists(ObjectHolder *objHolder, Pos2 *loc, long type);
 		virtual int load(ResourceLoader *resLoader, AnimationHolder *animHolder);
 		virtual int simpleUpdate(float delta);//made b/c when I'm making a subclass and I'm lazy 
 			// and don't need all the stuff in update i dont wanna c&p it all
@@ -42,10 +44,12 @@ class BaseObject
 		virtual int getLayer();
 		virtual void setLayer(int l);
 		virtual void die(BaseObject *killer);
+		virtual void alertDeath(BaseObject *died);
 		virtual void doDeath(ObjectHolder *objHolder, GameProperties *gameProps, AudioPlayer *audioPlayer, Controller *contrlr, float delta);
 		virtual void setOffset(float x, float y);
 		virtual void load_animations(AnimationHolder *animHolder);
 		virtual void setSpeed(float s);
+		virtual void setDirection(char dir);
 		char getShoves();
 		Pos2 *getSize();
 		int checkHitDir(int hitDir);

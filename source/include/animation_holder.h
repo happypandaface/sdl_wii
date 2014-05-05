@@ -31,8 +31,17 @@ class AnimationHolder;
 #define ANIM_FINISH_LEVEL 23
 #define ANIM_PLAYER_CUT_UP_LEFT 24
 #define ANIM_PLAYER_CUT_UP_RIGHT 25
+#define ANIM_FLY_AROUND 26
+#define ANIM_GOTO_WORLD 27
+#define ANIM_SWAMP_BG 28
+#define ANIM_ARCHER_GUY_WALK_LEFT 29
+#define ANIM_ARCHER_GUY_WALK_RIGHT 30
+#define ANIM_ARCHER_GUY_FIRE_LEFT 31
+#define ANIM_ARCHER_GUY_FIRE_RIGHT 32
+#define ANIM_ARROW_LEFT 33
+#define ANIM_ARROW_RIGHT 34
 
-#define NUM_ANIMS 25 // should be the last ANIM_ (assuming they're all incrementing correctly)
+#define NUM_ANIMS 34 // should be the last ANIM_ (assuming they're all incrementing correctly)
 
 class AnimationHolder
 {

@@ -10,6 +10,7 @@ class GameProperties;
 #include "animation_holder.h"
 #include "res_loader.h"
 #include "spawner.h"
+#include "level_select.h"
 
 #define MAX_PLAYERS 2
 
@@ -29,6 +30,8 @@ class GameProperties
 		void addObjsTo(ObjectHolder *obj);
 		ResourceLoader *getResLoader();
 		AnimationHolder *getAnimHolder();
+		LevelSelect *getLevelSelect();
+		void makeLevel(ObjectHolder *obj);
 		void removePlayer();
 		void setPlayers(int i);
 		int getPlayersLeft();
@@ -48,6 +51,7 @@ class GameProperties
 		int players;
 		ResourceLoader *resLoader;
 		AnimationHolder *animHolder;
+		LevelSelect *lvlSelect;
 		Camera *cam;
 		ObjectHolder *objsToAdd;
 		Pos2 *offset;

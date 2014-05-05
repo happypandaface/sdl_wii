@@ -12,13 +12,15 @@ void ImageEffect::setTime(float t)
 {
 	time = t;
 }
-void ImageEffect::apply(SDL_Rect *src, SDL_Rect *dst)
+int ImageEffect::apply(SDL_Rect *src, SDL_Rect *dst)
 {
-	applyRect(src, dst);
+	if (applyRect(src, dst) == 0)
+		return 0;
+	return 1;
 }
-void ImageEffect::applyRect(SDL_Rect *src, SDL_Rect *dst)
+int ImageEffect::applyRect(SDL_Rect *src, SDL_Rect *dst)
 {
-	
+	return 0;
 }
 void ImageEffect::reset()
 {
